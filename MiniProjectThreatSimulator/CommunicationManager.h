@@ -41,7 +41,5 @@ private:
 	bool tcpConnected = false;
 	std::string tcpConnIP;
 	ushort tcpPort;	
-	CommunicationManager() {};
-	~CommunicationManager() {};
 };
 

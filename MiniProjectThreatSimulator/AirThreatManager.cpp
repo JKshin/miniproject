@@ -1,7 +1,7 @@
 ﻿#include<iostream>
 #include<cmath>
 #include<functional>
-#include"AirThreatManager.h"
+#include "AirThreatManager.h"
 #include "CommunicationManager.h"
 using namespace std;
 
@@ -75,4 +75,13 @@ void AirThreatManager::initStartAndEndPosition(Point startposition, Point endpos
 	startPosition = startposition;
 	currentPosition = startposition;
 	endPosition = endposition;
+}
+
+int main() {
+	int a;
+	CommunicationManager* commManager = CommunicationManager::getInstance();
+	commManager->setTcpConnectionInfo("127.0.0.1", 5000);
+	commManager->initialize();
+	cin >> a;
+	return 0;
 }

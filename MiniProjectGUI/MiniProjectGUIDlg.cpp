@@ -258,8 +258,8 @@ void CMiniProjectGUIDlg::OnBnClickedButtonCommSet()
 
 	string addr = CT2CA(m_str_server_address.operator LPCWSTR()); // cstring to string
 	comm.setTcpConnectionInfo(addr, _ttoi(m_str_server_port));
-	
-	
+	comm.connect();
+	AfxMessageBox(m_str_server_address);
 }
 
 

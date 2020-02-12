@@ -66,8 +66,9 @@ void CommunicationManager::onReceiveData(NTcpSession& session)
 		{
 		case START:
 		{
-			AirThreat->initStartAndEndPosition(Message.start_pos, Message.end_pos);
-			AirThreat->start();
+			cout << "START!!!" << endl;
+			//AirThreat->initStartAndEndPosition(Message.start_pos, Message.end_pos);
+			//AirThreat->start();
 			//초기 위치 및 최종 위치 설정 및 이륙
 		}
 		break;
@@ -99,7 +100,7 @@ bool CommunicationManager::initialize()
 
 void CommunicationManager::sendMessage(Message message)
 {
-	Message message;
+	//Message message;
 
 	if (session != nullptr)
 		session->send((unsigned char*)& message, sizeof(Message));

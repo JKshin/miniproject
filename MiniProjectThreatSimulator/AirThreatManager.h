@@ -1,4 +1,5 @@
 #pragma once
+#include "msg.h"
 
 struct RelativePoint {
 	double radian;
@@ -7,6 +8,8 @@ struct RelativePoint {
 
 class AirThreatManager {
 public:
+	AirThreatManager() {};
+	~AirThreatManager() {};
 	void movecoordinate();
 	void start();
 	void stop();
@@ -23,7 +26,6 @@ private:
 	Point currentPosition; // 현재 ATS 위치 값
 	Point endPosition; // 목적지 위치 값
 	static AirThreatManager* airThreat;
-	AirThreatManager() {};
-	~AirThreatManager() {};
+
 
 };

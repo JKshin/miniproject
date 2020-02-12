@@ -16,6 +16,8 @@ void CommunicationManager::onConnected(NTcpSession& session) {
 	cout << "Connected to server " << session.getPeerAddress() << endl;
 	this->session = &session;
 	tcp_connected = true;
+
+	send(START);
 }
 
 void CommunicationManager::onDisconnected(NTcpSession& session) {
@@ -62,12 +64,12 @@ bool CommunicationManager::connect()
 {
 	bool init = true;
 
-	this->tcpClient = new NTcpClient(this->tcpConnIP, this->tcpPort);
+	this->tcpServer = new NTcpServer(this->tcpConnIP, this->tcpPort);
 
-	tcpClient->setTcpConnectionEvent(this);
-	tcpClient->setTcpReceiveDataEvent(this);
+	tcpServer->setTcpConnectionEvent(this);
+	tcpServer->setTcpReceiveDataEvent(this);
 
-	if (!ncomm->registerTcpClient(tcpClient))
+	if (!ncomm->registerTcpServer(tcpServer))
 	{
 		init = false;
 	}
@@ -77,10 +79,10 @@ bool CommunicationManager::connect()
 
 void CommunicationManager::disconnect()
 {
-	if (tcpClient)
+	if (tcpServer)
 	{
-		ncomm->removeTcpClient(tcpClient);
-		tcpClient = nullptr;
+		ncomm->removeTcpServer(tcpServer);
+		tcpServer = nullptr;
 	}
 }
 

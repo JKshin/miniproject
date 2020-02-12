@@ -19,7 +19,7 @@ private:
 	header_id header;
 
 	NComm* ncomm = nullptr;
-	NTcpClient* tcpClient = nullptr;
+	NTcpServer* tcpServer = nullptr;
 	NTcpSession* session = nullptr;
 
 	string tcpConnIP;
