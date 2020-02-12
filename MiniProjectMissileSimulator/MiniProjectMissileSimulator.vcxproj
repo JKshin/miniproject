@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CommunicationManager.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="MissileManager.cpp" />
     <ClCompile Include="MissionManager.cpp" />
   </ItemGroup>

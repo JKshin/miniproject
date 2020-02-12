@@ -1,10 +1,6 @@
 #pragma once
-#pragma once
-
-struct Point {
-	double x;
-	double y;
-};
+#include "msg.h"
+#include <thread>
 
 struct RelativePoint {
 	double radian;
@@ -22,6 +18,7 @@ public:
 	void sendPosition();
 	void initStartPosition(Point currentPosition);
 	static MissileManager* getInstance();
+	void missileManagerFuntion(void* args);
 
 private:
 	double velocity; // 시간당 속도
@@ -42,5 +39,6 @@ private:
 	double ATS_v_est, ATS_theta_est;
 
 	static MissileManager* missile;
+	std::thread* missileManagerThread;
 
 };
