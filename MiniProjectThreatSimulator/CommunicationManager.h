@@ -28,7 +28,6 @@ public:
 	// normal methods
 	void setTcpConnectionInfo(std::string ip, ushort port);
 	bool initialize();
-	void release();
 	static CommunicationManager* getInstance();
 	void sendMessage(Message message);
 

@@ -98,8 +98,6 @@ bool CommunicationManager::initialize()
 
 void CommunicationManager::sendMessage(Message message)
 {
-	Message message;
-
 	if (session != nullptr)
 		session->send((unsigned char*)& message, sizeof(Message));
 }
