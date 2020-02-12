@@ -24,6 +24,14 @@ Point GetPointFromAngleAndDistance(RelativePoint relativePoint) // 목적지까�
 	return point; // 현재 위치 즉, send 해야하는 위치값  send()
 }
 
+void AirThreatManager::airThreatFuntion(void* args){
+	while (!airThreat->isFinish) {
+		airThreat->movecoordinate();
+		airThreat->sendPosition();
+		Sleep(1000);
+	}
+}
+
 AirThreatManager* AirThreatManager::getInstance() {
 	if (!airThreat) {
 		airThreat = new AirThreatManager();
@@ -52,13 +60,17 @@ void AirThreatManager::movecoordinate() {
 
 }
 
+
+
 void AirThreatManager::start() {
 	velocity = 1;
 	period = 1000;
-
+	airThreat->airThreatThread = new std::thread(std::bind(&AirThreatManager::airThreatFuntion, this, placeholders::_1), nullptr);
 }
 void AirThreatManager::stop() {
 	stateOfObject = false;
+	airThreat->isFinish = true;
+	Sleep(1000);
 	airThreat->~AirThreatManager(); // 소멸자
 }
 
@@ -75,13 +87,4 @@ void AirThreatManager::initStartAndEndPosition(Point startposition, Point endpos
 	startPosition = startposition;
 	currentPosition = startposition;
 	endPosition = endposition;
-}
-
-int main() {
-	int a;
-	CommunicationManager* commManager = CommunicationManager::getInstance();
-	commManager->setTcpConnectionInfo("127.0.0.1", 5000);
-	commManager->initialize();
-	cin >> a;
-	return 0;
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "msg.h"
+#include <thread>
 
 struct RelativePoint {
 	double radian;
@@ -16,6 +17,7 @@ public:
 	void sendPosition();
 	void initStartAndEndPosition(Point startPosition, Point endPosition);
 	static AirThreatManager* getInstance();
+	void airThreatFuntion(void* args);
 	
 private:
 	double velocity; // 시간당 속도
@@ -25,7 +27,6 @@ private:
 	Point startPosition;
 	Point currentPosition; // 현재 ATS 위치 값
 	Point endPosition; // 목적지 위치 값
-	static AirThreatManager* airThreat;
-
-
+	static AirThreatManager* airThreat;	
+	std::thread* airThreatThread;
 };
