@@ -486,7 +486,12 @@ void CMiniProjectGUIDlg::setPosition()
 	ThreatTargetPosition_X = tccController->getAtsEndPosition().x;
 	ThreatTargetPosition_Y = tccController->getAtsEndPosition().y;
 
-	MissilePosition_X = tccController->getMssStartPosition().x;
-	MissilePosition_Y = tccController->getMssStartPosition().y;
+	//@신재권 수정
+	//MissilePosition_X = tccController->getMssStartPosition().x;
+	//MissilePosition_Y = tccController->getMssStartPosition().y;
+	///////////////////////////////////////////////////////////
+
+	MissilePosition_X = tccController->getMssCurPosition().x;
+	MissilePosition_Y = tccController->getMssCurPosition().y;
 
 }

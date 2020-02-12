@@ -38,16 +38,20 @@ void CommunicationManager::onDisconnected(NTcpSession& session) {
 void CommunicationManager::onReceiveData(NTcpSession& session) {
 	Message msg;
 	TCCController* tccController = TCCController::getInstance();
-
+	
 	session.recv((unsigned char*)& message, sizeof(Message));
 
 	switch (message.id) {
 	case ATS_POSITION:
 		// 공중위협 좌표 정보를 읽어온다.
 		memcpy(&msg, &message, sizeof(Message));
+		
+		//@재권 수정
+		//(comm->atsCurPosition).x = message.start_pos.x;
+		//(comm->atsCurPosition).y = message.start_pos.y;
+		tccController->setAtsCurPosition(message.start_pos);
+		////////////////////////////////////////////////////
 
-		(comm->atsCurPosition).x = message.start_pos.x;
-		(comm->atsCurPosition).y = message.start_pos.y;
 		tccController->drawATS();
 
 		break;
@@ -56,8 +60,12 @@ void CommunicationManager::onReceiveData(NTcpSession& session) {
 		// 유도탄 좌표 정보를 읽어온다.
 		memcpy(&msg, &message, sizeof(Message));
 
-		(comm->mssStartPosition).x = message.start_pos.x;
-		(comm->mssStartPosition).y = message.start_pos.y;
+		//@재권 수정
+		//(comm->mssStartPosition).x = message.start_pos.x;
+		//(comm->mssStartPosition).y = message.start_pos.y;
+		tccController->setMssCurPosition(message.start_pos);
+		////////////////////////////////////////////////////
+
 		tccController->drawMSS();
 		break;
 	case INTERCEPT:
@@ -100,10 +108,13 @@ void CommunicationManager::disconnect()
 	}
 }
 
-
-void CommunicationManager::send(header_id id) {
-	Message message;
-	message.id = id;
+//@신재권 수정
+//void CommunicationManager::send(header_id id) {
+//////////////////////////////////////////////////
+void CommunicationManager::send(Message message) {
+	//@신재권 수정
+	//message.id = id;
+	//////////////////
 
 	/*switch (id) {
 	case START:
@@ -129,10 +140,12 @@ void CommunicationManager::receive() {
 
 }
 
-void CommunicationManager::setPosition() {
-	TCCController* tccController = TCCController::getInstance();
-
-	atsCurPosition = tccController->getAtsCurPosition();
-	atsEndPosition = tccController->getAtsEndPosition();
-	mssStartPosition = tccController->getMssStartPosition();
-};
+//@신재권 수정
+//void CommunicationManager::setPosition() {
+//	TCCController* tccController = TCCController::getInstance();
+//
+//	atsCurPosition = tccController->getAtsCurPosition();
+//	atsEndPosition = tccController->getAtsEndPosition();
+//	mssStartPosition = tccController->getMssStartPosition();
+//};
+/////////////////////////////////////////////////////////////////
