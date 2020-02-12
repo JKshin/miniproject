@@ -8,6 +8,8 @@
 #include "MiniProjectGUIDlg.h"
 #include "afxdialogex.h"
 #include "TCCController.h"
+#include "ATSCommunicationManager.h"
+#include "MSSCommunicationManager.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -264,13 +266,14 @@ void CMiniProjectGUIDlg::OnBnClickedBtnStart()
 		// 화면 지우기
 		displayController.reset();
 
-		if (atsThread != nullptr)
+		//@신재권 수정
+		/*if (atsThread != nullptr)
 		{
 			atsThread->join();
 			delete atsThread;
 		}
 
-		atsThread = new thread(bind(&CMiniProjectGUIDlg::atsDraw, this));
+		atsThread = new thread(bind(&CMiniProjectGUIDlg::atsDraw, this));*/
 
 		OnLbnSelchangeListEvent(L"운용 시작");
 		control_status.SetWindowText(L"운용 시작");
@@ -307,13 +310,14 @@ void CMiniProjectGUIDlg::OnBnClickedBtnFireMissile()
 		TCCController* tccController = TCCController::getInstance();
 		tccController->fireMissile();
 
-		if (mssThread != nullptr)
+		//@신재권 수정
+		/*if (mssThread != nullptr)
 		{
 			mssThread->join();
 			delete mssThread;
 		}
 
-		mssThread = new thread(bind(&CMiniProjectGUIDlg::mssDraw, this));
+		mssThread = new thread(bind(&CMiniProjectGUIDlg::mssDraw, this));*/
 
 		OnLbnSelchangeListEvent(L"유도탄 발사 명령");
 	}
@@ -340,16 +344,28 @@ void CMiniProjectGUIDlg::OnLbnSelchangeListEvent(CString log_message)
 
 void CMiniProjectGUIDlg::OnBnClickedButtonCommSet()
 {
-	CommunicationManager* comm = CommunicationManager::getInstance();
+	//@신재권 수정
+	//CommunicationManager* comm = CommunicationManager::getInstance();
+	CommunicationManager* atsComm = ATSCommunicationManager::getInstance();
+	CommunicationManager* mssComm = MSSCommunicationManager::getInstance();
+	ushort atsPort = _ttoi(m_str_server_port);
+	ushort mssPort = _ttoi(m_str_server_port)+1;
 	// 통신설정 버튼
 	UpdateData(TRUE);
 
 	string addr = CT2CA(m_str_server_address.operator LPCWSTR()); // cstring to string
-	comm->setTcpConnectionInfo(addr, _ttoi(m_str_server_port));
-	if (comm->connect()) {
-		OnLbnSelchangeListEvent(L"TCP 연결: " + m_str_server_address +
+	atsComm->setTcpConnectionInfo(addr, atsPort);
+	if (atsComm->connect()) {
+		OnLbnSelchangeListEvent(L"ATS TCP 연결: " + m_str_server_address +
 			L", " + m_str_server_port);
 	}
+	mssComm->setTcpConnectionInfo(addr, mssPort);
+	if (mssComm->connect()) {
+		OnLbnSelchangeListEvent(L"MSS TCP 연결: " + m_str_server_address +
+			L", " + m_str_server_port + L"+1");
+	}
+	//@@@뒤에 +1 붙인거 수정해야함.
+
 }
 
 void CMiniProjectGUIDlg::atsDraw()

@@ -195,6 +195,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ATSCommunicationManager.h" />
     <ClInclude Include="CDisplayStatic.h" />
     <ClInclude Include="CommunicationManager.h" />
     <ClInclude Include="DisplayController.h" />
@@ -202,17 +203,20 @@
     <ClInclude Include="MiniProjectGUI.h" />
     <ClInclude Include="MiniProjectGUIDlg.h" />
     <ClInclude Include="msg.h" />
+    <ClInclude Include="MSSCommunicationManager.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TCCController.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ATSCommunicationManager.cpp" />
     <ClCompile Include="CDisplayStatic.cpp" />
     <ClCompile Include="CommunicationManager.cpp" />
     <ClCompile Include="DisplayController.cpp" />
     <ClCompile Include="MiniProjectGUI.cpp" />
     <ClCompile Include="MiniProjectGUIDlg.cpp" />
+    <ClCompile Include="MSSCommunicationManager.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

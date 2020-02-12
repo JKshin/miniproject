@@ -56,7 +56,7 @@ void AirThreatManager::movecoordinate() {
 	if (distanceFromStartPositionToEndPosition < distanceFromStartPositionToCurrentPosition)
 		currentPosition = endPosition;
 
-	cout << "currentPosition.x = " << currentPosition.x << "currentPosition.y = " << currentPosition.y << endl;
+	//cout << "currentPosition.x = " << currentPosition.x << "currentPosition.y = " << currentPosition.y << endl;
 
 }
 
@@ -77,7 +77,6 @@ void AirThreatManager::stop() {
 void AirThreatManager::sendPosition() {
 	CommunicationManager* commManager = CommunicationManager::getInstance();
 	Message message;
-	Point currentPoint;
 	message.id = ATS_POSITION;	
 	message.start_pos = airThreat->currentPosition;
 	commManager->sendMessage(message);

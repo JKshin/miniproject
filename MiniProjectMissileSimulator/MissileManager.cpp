@@ -52,8 +52,8 @@ void MissileManager::movecoordinate(Point PositionOfATS) { //endPosition = ATS ì
 	PositionTempATS.x = PositionOfATS.x;
 	PositionTempATS.y = PositionOfATS.y;
 
-	cout << "currentPosition.x = " << currentPosition.x << "currentPosition.y = " << currentPosition.y << endl;
-	cout << "PositionTempATS.x = " << PositionTempATS.x << "PositionTempATS.y = " << PositionTempATS.y << endl;
+	//cout << "currentPosition.x = " << currentPosition.x << "currentPosition.y = " << currentPosition.y << endl;
+	//cout << "PositionTempATS.x = " << PositionTempATS.x << "PositionTempATS.y = " << PositionTempATS.y << endl;
 
 }
 

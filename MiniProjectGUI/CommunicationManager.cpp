@@ -2,16 +2,17 @@
 #include "CommunicationManager.h"
 #include "TCCController.h"
 
-CommunicationManager* CommunicationManager::comm;
-
-CommunicationManager* CommunicationManager::getInstance()
-{
-	if (!comm) {
-		comm = new CommunicationManager();
-	}
-
-	return comm;
-}
+//@신재권 수정
+//CommunicationManager* CommunicationManager::comm;
+//
+//CommunicationManager* CommunicationManager::getInstance()
+//{
+//	if (!comm) {
+//		comm = new CommunicationManager();
+//	}
+//
+//	return comm;
+//}
 
 CommunicationManager::CommunicationManager() {
 	ncomm = &NComm::getInstance();
@@ -36,56 +37,8 @@ void CommunicationManager::onDisconnected(NTcpSession& session) {
 }
 
 void CommunicationManager::onReceiveData(NTcpSession& session) {
-	Message msg;
-	TCCController* tccController = TCCController::getInstance();
-	
-	session.recv((unsigned char*)& msg, sizeof(Message));
-
-	switch (message.id) {
-	case ATS_POSITION:
-		// 공중위협 좌표 정보를 읽어온다.
-		memcpy(&msg, &message, sizeof(Message));
-		
-		//@재권 수정
-		//(comm->atsCurPosition).x = message.start_pos.x;
-		//(comm->atsCurPosition).y = message.start_pos.y;
-		tccController->setAtsCurPosition(message.start_pos);
-		////////////////////////////////////////////////////
-		
-		//@신재권 슈도코드 추가
-		//공중 위협으로부터 위치를 수신 받았으므로 그대로 미사일에게 해당 정보를 송신한다.
-		msg.id = ATS_POSITION;
-		//msg.start_pos은 그대로 남아있다.
-		send(msg);
-
-
-		tccController->drawATS();
-
-		
-
-		break;
-
-	case MSS_POSITION:
-		// 유도탄 좌표 정보를 읽어온다.
-		memcpy(&msg, &message, sizeof(Message));
-
-		//@재권 수정
-		//(comm->mssStartPosition).x = message.start_pos.x;
-		//(comm->mssStartPosition).y = message.start_pos.y;
-		tccController->setMssCurPosition(message.start_pos);
-		////////////////////////////////////////////////////
-
-		tccController->drawMSS();
-		break;
-	case INTERCEPT:
-		cout << "요격" << endl;
-		// 요격 여부 UI에 알림
-		tccController->displayEvent();
-
-		//@신재권 슈도코드 추가
-		//미사일로부터 요격 신호가 온 것이므로 프로그램을 종료하고 객체를 소멸시키라는 메시지를 미사일과 대공 위협에게 전달.
-		break;
-	}
+	//@신재권 수정
+	//빈 함수로 변경
 }
 
 void CommunicationManager::setTcpConnectionInfo(string ip, ushort port)

@@ -48,6 +48,12 @@
     <ClInclude Include="TCCController.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="ATSCommunicationManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MSSCommunicationManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniProjectGUI.cpp">
@@ -69,6 +75,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="TCCController.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ATSCommunicationManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MSSCommunicationManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

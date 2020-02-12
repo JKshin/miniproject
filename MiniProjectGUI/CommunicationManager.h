@@ -13,7 +13,9 @@ typedef unsigned short ushort;
 
 
 class CommunicationManager : public NTcpConnectionEvent, public NTcpReceiveDataEvent {
-private:
+//@신재권 수정
+//private:
+protected:
 
 	Message message; // 통신 메시지
 	header_id header;
@@ -46,6 +48,8 @@ public:
 	void send(Message message);
 	void receive();
 
-	static CommunicationManager* getInstance();
+	//@신재권 수정
+	//static CommunicationManager* getInstance();
+
 
 };
