@@ -1,5 +1,11 @@
 #include "CommunicationManager.h"
+#include "AirThreatManager.h"
 
+CommunicationManager CommunicationManager::commManager;
+
+CommunicationManager& CommunicationManager::getInstance() {
+	return commManager;
+}
 
 CommunicationManager::CommunicationManager()
 {
@@ -48,6 +54,7 @@ void CommunicationManager::onDisconnected(NTcpSession& session)
 void CommunicationManager::onReceiveData(NTcpSession& session)
 {
 	Message Message;
+	AirThreatManager* AirThreat = AirThreatManager::getInstance();
 
 	session.recv((unsigned char*)& Message, sizeof(Message));
 
@@ -56,11 +63,14 @@ void CommunicationManager::onReceiveData(NTcpSession& session)
 		{
 		case START:
 		{
+			AirThreat->initStartAndEndPosition(Message.start_pos, Message.end_pos);
+			AirThreat->start();
 			//초기 위치 및 최종 위치 설정 및 이륙
 		}
 		break;
 		case STOP_FINISH:
 		{
+			AirThreat->stop();
 			//객체 소멸
 		}
 		break;

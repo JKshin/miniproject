@@ -2,7 +2,10 @@
 #include<cmath>
 #include<functional>
 #include"AirThreatManager.h"
+#include "CommunicationManager.h"
 using namespace std;
+
+AirThreatManager* AirThreatManager::airThreat;
 
 double GetDistanceFromPoints(Point start, Point end) // 시작 - 목적지 간의 거리
 {
@@ -21,6 +24,13 @@ Point GetPointFromAngleAndDistance(RelativePoint relativePoint) // 목적지까�
 	return point; // 현재 위치 즉, send 해야하는 위치값  send()
 }
 
+AirThreatManager* AirThreatManager::getInstance() {
+	if (!airThreat) {
+		airThreat = new AirThreatManager();
+		airThreat->stateOfObject = true;
+	}
+	return airThreat;
+}
 
 void AirThreatManager::movecoordinate() {
 	RelativePoint currentRelativePoint;
@@ -43,20 +53,22 @@ void AirThreatManager::movecoordinate() {
 }
 
 void AirThreatManager::start() {
-	//Point startPosition = { 10.0, 20.0 };
-	//Point endPosition = { 30.0, 40.0 };
 	velocity = 1;
 	period = 1000;
 
 }
 void AirThreatManager::stop() {
-
 	stateOfObject = false;
+	airThreat->~AirThreatManager(); // 소멸자
 }
 
 void AirThreatManager::sendPosition() {
-
-
+	CommunicationManager commManager;
+	Message message;
+	Point currentPoint;
+	message.id = ATS_POSITION;	
+	message.start_pos = airThreat->currentPosition;
+	commManager.sendMessage(message);
 }
 
 void AirThreatManager::initStartAndEndPosition(Point startposition, Point endposition) {

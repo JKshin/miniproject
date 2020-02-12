@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AirThreatManager.cpp" />
+    <ClCompile Include="CommunicationManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AirThreatManager.h" />

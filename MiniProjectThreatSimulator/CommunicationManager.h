@@ -29,18 +29,17 @@ public:
 	void setTcpConnectionInfo(std::string ip, ushort port);
 	bool initialize();
 	void release();
+	CommunicationManager& getInstance();
+	void sendMessage(Message message);
 
 private:
 	NComm* ncomm = nullptr;
 	NTcpClient* tcpClient = nullptr;
 	NTcpSession* session = nullptr;
+	static CommunicationManager commManager;
 
 	bool tcpConnected = false;
-
 	std::string tcpConnIP;
-	ushort tcpPort;
-
-private:
-	void sendMessage(Message message);
+	ushort tcpPort;		
 };
 
