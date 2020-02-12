@@ -25,12 +25,13 @@ private:
 	string tcpConnIP;
 	ushort tcpPort;
 
-public:
-	bool tcp_connected = false;
-
 	// Constructor, Destructor
 	CommunicationManager();
 	~CommunicationManager();
+public:
+	bool tcp_connected = false;
+
+	
 
 	// overriding methods
 	void onConnected(NTcpSession& session) override;
