@@ -2,6 +2,7 @@
 #include "MSSCommunicationManager.h"
 #include "ATSCommunicationManager.h"
 #include "TCCController.h"
+#include "MiniProjectGUIDlg.h"
 
 MSSCommunicationManager* MSSCommunicationManager::mssComm;
 
@@ -17,11 +18,13 @@ CommunicationManager* MSSCommunicationManager::getInstance()
 void MSSCommunicationManager::onReceiveData(NTcpSession& session) {
 	CommunicationManager* atsComm = ATSCommunicationManager::getInstance();
 	TCCController* tccController = TCCController::getInstance();
+	CMiniProjectGUIDlg* guiDlg = CMiniProjectGUIDlg::getInstance();
 	Message msg;
 	session.recv((unsigned char*)& msg, sizeof(Message));
-
+	guiDlg->Alert(L"Received Data!");
 	switch (message.id) {
 	case MSS_POSITION:
+		guiDlg->Alert(L"Received MSS_POSITION!");
 		// 유도탄 좌표 정보를 읽어온다.
 		memcpy(&msg, &message, sizeof(Message));
 
@@ -31,7 +34,7 @@ void MSSCommunicationManager::onReceiveData(NTcpSession& session) {
 		tccController->drawMSS();
 		break;
 	case INTERCEPT:
-		cout << "요격" << endl;
+		guiDlg->Alert(L"Received INTERCEPT!");
 		// 요격 여부 UI에 알림
 		tccController->displayEvent();
 

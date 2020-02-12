@@ -56,7 +56,7 @@ void AirThreatManager::movecoordinate() {
 	if (distanceFromStartPositionToEndPosition < distanceFromStartPositionToCurrentPosition)
 		currentPosition = endPosition;
 
-	//cout << "currentPosition.x = " << currentPosition.x << "currentPosition.y = " << currentPosition.y << endl;
+	cout << "currentPosition.x = " << currentPosition.x << "currentPosition.y = " << currentPosition.y << endl;
 
 }
 

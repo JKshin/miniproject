@@ -3,6 +3,7 @@
 #include<functional>
 #include"MissileManager.h"
 #include"MissionManager.h"
+#include"CommunicationManager.h"
 #include<Windows.h>
 
 using namespace std;
@@ -52,8 +53,8 @@ void MissileManager::movecoordinate(Point PositionOfATS) { //endPosition = ATS ì
 	PositionTempATS.x = PositionOfATS.x;
 	PositionTempATS.y = PositionOfATS.y;
 
-	//cout << "currentPosition.x = " << currentPosition.x << "currentPosition.y = " << currentPosition.y << endl;
-	//cout << "PositionTempATS.x = " << PositionTempATS.x << "PositionTempATS.y = " << PositionTempATS.y << endl;
+	cout << "currentPosition.x = " << currentPosition.x << "currentPosition.y = " << currentPosition.y << endl;
+	cout << "PositionTempATS.x = " << PositionTempATS.x << "PositionTempATS.y = " << PositionTempATS.y << endl;
 
 }
 
@@ -69,12 +70,12 @@ void MissileManager::stop() {
 
 }
 void MissileManager::sendPosition() {
-	/*CommunicationManager commManager;
+	CommunicationManager commManager;
 	Message message;
 	Point currentPoint;
 	message.id = MSS_POSITION;
 	message.start_pos = missile->currentPosition;
-	commManager.sendMessage(message);*/
+	commManager.sendMessage(message);
 
 }
 

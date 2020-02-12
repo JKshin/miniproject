@@ -100,8 +100,10 @@ bool CommunicationManager::initialize()
 
 void CommunicationManager::sendMessage(Message message)
 {
-	if (session != nullptr)
+	if (session != nullptr) {
+		cout << "send " << message.id << endl;
 		session->send((unsigned char*)& message, sizeof(Message));
+	}
 }
 
 void CommunicationManager::setTcpConnectionInfo(std::string ip, ushort port)

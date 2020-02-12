@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CommunicationManager.h"
 #include "TCCController.h"
+#include "MiniProjectGUIDlg.h"
 
 //@신재권 수정
 //CommunicationManager* CommunicationManager::comm;
@@ -37,6 +38,10 @@ void CommunicationManager::onDisconnected(NTcpSession& session) {
 }
 
 void CommunicationManager::onReceiveData(NTcpSession& session) {
+	CMiniProjectGUIDlg* guiDlg = CMiniProjectGUIDlg::getInstance();
+	Message msg;
+	session.recv((unsigned char*)& msg, sizeof(Message));
+	guiDlg->Alert(L"Received CommMessage!");
 	//@신재권 수정
 	//빈 함수로 변경
 }

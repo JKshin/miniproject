@@ -2,6 +2,7 @@
 #include "ATSCommunicationManager.h"
 #include "MSSCommunicationManager.h"
 #include "TCCController.h"
+#include "MiniProjectGUIDlg.h"
 
 ATSCommunicationManager* ATSCommunicationManager::atsComm;
 
@@ -16,6 +17,7 @@ CommunicationManager* ATSCommunicationManager::getInstance()
 
 void ATSCommunicationManager::onReceiveData(NTcpSession& session) {
 	CommunicationManager* mssComm = MSSCommunicationManager::getInstance();
+	CMiniProjectGUIDlg* guiDlg = CMiniProjectGUIDlg::getInstance();
 	TCCController* tccController = TCCController::getInstance();
 	Message msg;
 	session.recv((unsigned char*)& msg, sizeof(Message));
@@ -23,6 +25,7 @@ void ATSCommunicationManager::onReceiveData(NTcpSession& session) {
 	switch (message.id) {
 	case ATS_POSITION:
 		// 공중위협 좌표 정보를 읽어온다.
+		guiDlg->Alert(L"Received ATS_POSITION!");
 		memcpy(&msg, &message, sizeof(Message));
 
 		tccController->setAtsCurPosition(message.start_pos);

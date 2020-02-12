@@ -88,6 +88,9 @@ public:
 	afx_msg void OnEnChangeEditServerAddr();
 	afx_msg void OnEnChangeEditServerPort();
 
+	//@신재권 추가
+	afx_msg void Alert(CString str);
+
 	CStatic control_status;
 	CString m_str_server_address;
 	CString m_str_server_port;
