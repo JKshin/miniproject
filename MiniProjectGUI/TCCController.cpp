@@ -71,11 +71,26 @@ void TCCController::finishScenario() // 시나리오 종료
 
 void TCCController::drawATS()
 {
-	//CMiniProjectGUIDlg
+	CommunicationManager* comm = CommunicationManager::getInstance();
+	CMiniProjectGUIDlg* projectGUIDlg = CMiniProjectGUIDlg::getInstance();
+
+	atsCurPosition = comm->getAtsCurPosition();
+	atsEndPosition = comm->getAtsEndPosition();
+
+	projectGUIDlg->setPosition();
+	projectGUIDlg->atsDraw();
 }
 void TCCController::drawMSS()
 {
+	CommunicationManager* comm = CommunicationManager::getInstance();
+	CMiniProjectGUIDlg* projectGUIDlg = CMiniProjectGUIDlg::getInstance();
 
+	atsCurPosition = comm->getAtsCurPosition();
+	atsEndPosition = comm->getAtsEndPosition();
+	mssStartPosition = comm->getMssStartPosition();
+
+	projectGUIDlg->setPosition();
+	projectGUIDlg->mssDraw();
 }
 void TCCController::displayStatus()
 {

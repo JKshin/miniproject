@@ -44,10 +44,6 @@ protected:
 
 	//void testFunc();
 
-	void atsDraw();
-	void mssDraw();
-
-
 	// 생성된 메시지 맵 함수
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
@@ -67,6 +63,13 @@ public:
 	void changeType();
 	void stopAndReset();
 	void positionInit();
+
+	void setPosition();
+
+	void atsDraw();
+	void mssDraw();
+
+	static CMiniProjectGUIDlg* getInstance();
 
 	afx_msg void OnBnClickedBtnSetPositions();
 	afx_msg void OnBnClickedBtnResetPositions();
@@ -102,4 +105,6 @@ private:
 
 	//float ATS_theta, ATS_x, ATS_y;
 	double estimated_ATS_x, estimated_ATS_y;
+
+	static CMiniProjectGUIDlg* projectGUIDlg;
 };

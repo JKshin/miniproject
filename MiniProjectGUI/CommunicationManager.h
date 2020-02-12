@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "msg.h"
 #include <nFramework/NComm/NCommMain.h>
 #include <iostream>
@@ -50,12 +49,12 @@ public:
 	void send(header_id id);
 	void receive();
 
+	static CommunicationManager* getInstance();
+
 	void setPosition();
 
-	static CommunicationManager* getInstance();
-	// Singleton
-	/*static CommunicationManager& getInstance() {
-		static CommunicationManager* instance = new CommunicationManager();
-		return *instance;
-	}*/
+	struct Position getAtsCurPosition() { return atsCurPosition; };
+	struct Position getAtsEndPosition() { return atsEndPosition; };
+	struct Position getMssStartPosition() { return mssStartPosition; };
+
 };

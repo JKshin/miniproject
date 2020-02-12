@@ -14,6 +14,18 @@
 #endif
 
 
+CMiniProjectGUIDlg* CMiniProjectGUIDlg::projectGUIDlg = nullptr;
+
+CMiniProjectGUIDlg* CMiniProjectGUIDlg::getInstance()
+{
+	if (projectGUIDlg == nullptr)
+	{
+		projectGUIDlg = new CMiniProjectGUIDlg();
+	}
+
+	return projectGUIDlg;
+}
+
 // 응용 프로그램 정보에 사용되는 CAboutDlg 대화 상자입니다.
 
 class CAboutDlg : public CDialogEx
@@ -462,4 +474,19 @@ void CMiniProjectGUIDlg::stopAndReset()
 
 	displayController.reset();
 	checkStatus = 0;
+}
+
+void CMiniProjectGUIDlg::setPosition()
+{
+	TCCController* tccController = TCCController::getInstance();
+
+	ThreatPosition_X = tccController->getAtsCurPosition().x;
+	ThreatPosition_Y = tccController->getAtsCurPosition().y;
+
+	ThreatTargetPosition_X = tccController->getAtsEndPosition().x;
+	ThreatTargetPosition_Y = tccController->getAtsEndPosition().y;
+
+	MissilePosition_X = tccController->getMssStartPosition().x;
+	MissilePosition_Y = tccController->getMssStartPosition().y;
+
 }

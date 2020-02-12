@@ -3,6 +3,7 @@
 #include "TCCController.h"
 
 CommunicationManager* CommunicationManager::comm;
+
 CommunicationManager* CommunicationManager::getInstance()
 {
 	if (!comm) {
@@ -36,6 +37,7 @@ void CommunicationManager::onDisconnected(NTcpSession& session) {
 
 void CommunicationManager::onReceiveData(NTcpSession& session) {
 	Message msg;
+	TCCController* tccController = TCCController::getInstance();
 
 	session.recv((unsigned char*)& message, sizeof(Message));
 
@@ -43,22 +45,25 @@ void CommunicationManager::onReceiveData(NTcpSession& session) {
 	case ATS_POSITION:
 		// 공중위협 좌표 정보를 읽어온다.
 		memcpy(&msg, &message, sizeof(Message));
-		printf("%.2lf, %.2lf\n", message.start_pos.x, message.start_pos.y);
 
-		//opInfo->setThreatTargetPosition(x, y);
+		(comm->atsCurPosition).x = message.start_pos.x;
+		(comm->atsCurPosition).y = message.start_pos.y;
+		tccController->drawATS();
+
 		break;
 
 	case MSS_POSITION:
 		// 유도탄 좌표 정보를 읽어온다.
 		memcpy(&msg, &message, sizeof(Message));
-		printf("%.2lf, %.2lf\n", message.start_pos.x, message.start_pos.y);
-		
-		//opInfo->setMissilePosition(x, y);
+
+		(comm->mssStartPosition).x = message.start_pos.x;
+		(comm->mssStartPosition).y = message.start_pos.y;
+		tccController->drawMSS();
 		break;
 	case INTERCEPT:
 		cout << "요격" << endl;
 		// 요격 여부 UI에 알림
-
+		tccController->displayEvent();
 		break;
 	}
 }
