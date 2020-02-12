@@ -160,10 +160,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CommunicationManager.cpp" />
-    <ClCompile Include="MiniProjectMissileSimulator.cpp" />
+    <ClCompile Include="MissileManager.cpp" />
+    <ClCompile Include="MissionManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommunicationManager.h" />
+    <ClInclude Include="MissileManager.h" />
+    <ClInclude Include="MissionManager.h" />
     <ClInclude Include="msg.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
