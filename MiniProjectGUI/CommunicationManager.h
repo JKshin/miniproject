@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "msg.h"
 #include <nFramework/NComm/NCommMain.h>
 #include <iostream>
