@@ -39,7 +39,7 @@ void CommunicationManager::onReceiveData(NTcpSession& session) {
 	Message msg;
 	TCCController* tccController = TCCController::getInstance();
 	
-	session.recv((unsigned char*)& message, sizeof(Message));
+	session.recv((unsigned char*)& msg, sizeof(Message));
 
 	switch (message.id) {
 	case ATS_POSITION:
@@ -51,8 +51,17 @@ void CommunicationManager::onReceiveData(NTcpSession& session) {
 		//(comm->atsCurPosition).y = message.start_pos.y;
 		tccController->setAtsCurPosition(message.start_pos);
 		////////////////////////////////////////////////////
+		
+		//@신재권 슈도코드 추가
+		//공중 위협으로부터 위치를 수신 받았으므로 그대로 미사일에게 해당 정보를 송신한다.
+		msg.id = ATS_POSITION;
+		//msg.start_pos은 그대로 남아있다.
+		send(msg);
+
 
 		tccController->drawATS();
+
+		
 
 		break;
 
@@ -72,6 +81,9 @@ void CommunicationManager::onReceiveData(NTcpSession& session) {
 		cout << "요격" << endl;
 		// 요격 여부 UI에 알림
 		tccController->displayEvent();
+
+		//@신재권 슈도코드 추가
+		//미사일로부터 요격 신호가 온 것이므로 프로그램을 종료하고 객체를 소멸시키라는 메시지를 미사일과 대공 위협에게 전달.
 		break;
 	}
 }
