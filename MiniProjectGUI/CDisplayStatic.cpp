@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CDisplayStatic.h"
 
+
 CDisplayStatic::CDisplayStatic()
 {
 
