@@ -15,6 +15,10 @@ typedef unsigned short ushort;
 
 class CommunicationManager : public NTcpConnectionEvent, public NTcpReceiveDataEvent {
 private:
+	Position atsCurPosition;
+	Position atsEndPosition;
+	Position mssStartPosition;
+
 	Message message; // 통신 메시지
 	header_id header;
 
@@ -25,13 +29,13 @@ private:
 	string tcpConnIP;
 	ushort tcpPort;
 
+	static CommunicationManager* comm;
+
 	// Constructor, Destructor
 	CommunicationManager();
 	~CommunicationManager();
 public:
 	bool tcp_connected = false;
-
-	
 
 	// overriding methods
 	void onConnected(NTcpSession& session) override;
@@ -46,9 +50,12 @@ public:
 	void send(header_id id);
 	void receive();
 
-	// singleton
-	static CommunicationManager& getInstance() {
+	void setPosition();
+
+	static CommunicationManager* getInstance();
+	// Singleton
+	/*static CommunicationManager& getInstance() {
 		static CommunicationManager* instance = new CommunicationManager();
 		return *instance;
-	}
+	}*/
 };

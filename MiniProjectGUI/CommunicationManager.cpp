@@ -2,6 +2,16 @@
 #include "CommunicationManager.h"
 #include "TCCController.h"
 
+CommunicationManager* CommunicationManager::comm;
+CommunicationManager* CommunicationManager::getInstance()
+{
+	if (!comm) {
+		comm = new CommunicationManager();
+	}
+
+	return comm;
+}
+
 CommunicationManager::CommunicationManager() {
 	ncomm = &NComm::getInstance();
 }
@@ -14,6 +24,8 @@ void CommunicationManager::onConnected(NTcpSession& session) {
 	cout << "Connected to server " << session.getPeerAddress() << endl;
 	this->session = &session;
 	tcp_connected = true;
+
+	// isEnd = false;
 }
 
 void CommunicationManager::onDisconnected(NTcpSession& session) {
@@ -111,3 +123,11 @@ void CommunicationManager::send(header_id id) {
 void CommunicationManager::receive() {
 
 }
+
+void CommunicationManager::setPosition() {
+	TCCController* tccController = TCCController::getInstance();
+
+	atsCurPosition = tccController->getAtsCurPosition();
+	atsEndPosition = tccController->getAtsEndPosition();
+	mssStartPosition = tccController->getMssStartPosition();
+};

@@ -16,8 +16,6 @@ using std::bind;
 using std::placeholders::_1;
 using std::placeholders::_2;
 
-
-
 // CMiniProjectGUIDlg 대화 상자
 class CMiniProjectGUIDlg : public CDialogEx
 {
@@ -41,7 +39,14 @@ protected:
 
 	thread* testThread;
 
+	thread* atsThread;
+	thread* mssThread;
+
 	//void testFunc();
+
+	void atsDraw();
+	void mssDraw();
+
 
 	// 생성된 메시지 맵 함수
 	virtual BOOL OnInitDialog();
@@ -49,6 +54,7 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+
 public:
 	afx_msg void OnBnClickedBtnExit();
 	CString m_strTxtThreatPosition_X;
@@ -57,6 +63,10 @@ public:
 	CString m_strTxtThreatTargetPosition_Y;
 	CString m_strTxtMissilePosition_X;
 	CString m_strTxtMissilePosition_Y;
+
+	void changeType();
+	void stopAndReset();
+	void positionInit();
 
 	afx_msg void OnBnClickedBtnSetPositions();
 	afx_msg void OnBnClickedBtnResetPositions();
@@ -80,8 +90,6 @@ public:
 	CString m_str_server_port;
 
 private:
-	CommunicationManager& comm = CommunicationManager::getInstance();
-
 	float ThreatPosition_X;
 	float ThreatPosition_Y;
 	float ThreatTargetPosition_X;
