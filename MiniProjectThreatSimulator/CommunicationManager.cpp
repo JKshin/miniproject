@@ -1,9 +1,12 @@
 #include "CommunicationManager.h"
 #include "AirThreatManager.h"
 
-CommunicationManager CommunicationManager::commManager;
+CommunicationManager* CommunicationManager::commManager;
 
-CommunicationManager& CommunicationManager::getInstance() {
+CommunicationManager* CommunicationManager::getInstance() {
+	if (!commManager) {
+		commManager = new CommunicationManager();
+	}
 	return commManager;
 }
 

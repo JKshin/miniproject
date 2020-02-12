@@ -63,12 +63,12 @@ void AirThreatManager::stop() {
 }
 
 void AirThreatManager::sendPosition() {
-	CommunicationManager commManager;
+	CommunicationManager* commManager = CommunicationManager::getInstance();
 	Message message;
 	Point currentPoint;
 	message.id = ATS_POSITION;	
 	message.start_pos = airThreat->currentPosition;
-	commManager.sendMessage(message);
+	commManager->sendMessage(message);
 }
 
 void AirThreatManager::initStartAndEndPosition(Point startposition, Point endposition) {
