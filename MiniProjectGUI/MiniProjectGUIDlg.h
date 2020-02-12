@@ -41,7 +41,7 @@ protected:
 
 	thread* testThread;
 
-	void testFunc();
+	//void testFunc();
 
 	// 생성된 메시지 맵 함수
 	virtual BOOL OnInitDialog();
@@ -57,6 +57,7 @@ public:
 	CString m_strTxtThreatTargetPosition_Y;
 	CString m_strTxtMissilePosition_X;
 	CString m_strTxtMissilePosition_Y;
+
 	afx_msg void OnBnClickedBtnSetPositions();
 	afx_msg void OnBnClickedBtnResetPositions();
 	afx_msg void OnBnClickedBtnStart();
@@ -64,12 +65,33 @@ public:
 	afx_msg void OnBnClickedBtnFireMissile();
 	CDisplayStatic m_ctrlDisplay;
 	afx_msg void OnBnClickedBtnTest();
+
+	afx_msg void OnEnChangeEditThreatTargetY();
+	afx_msg void OnEnChangeEditThreatX();
+	afx_msg void OnLbnSelchangeListEvent(CString log_message);
+	afx_msg void OnStnClickedStaticDisplay();
+	
 	afx_msg void OnBnClickedButtonCommSet();
 	afx_msg void OnEnChangeEditServerAddr();
 	afx_msg void OnEnChangeEditServerPort();
+
+	CStatic control_status;
 	CString m_str_server_address;
 	CString m_str_server_port;
 
 private:
 	CommunicationManager& comm = CommunicationManager::getInstance();
+
+	float ThreatPosition_X;
+	float ThreatPosition_Y;
+	float ThreatTargetPosition_X;
+	float ThreatTargetPosition_Y;
+	float MissilePosition_X;
+	float MissilePosition_Y;
+
+	//운용 상태 확인.. 
+	int checkStatus = 0;
+
+	//float ATS_theta, ATS_x, ATS_y;
+	double estimated_ATS_x, estimated_ATS_y;
 };

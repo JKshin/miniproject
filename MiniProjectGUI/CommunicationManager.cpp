@@ -1,14 +1,12 @@
 #include "pch.h"
 #include "CommunicationManager.h"
+#include "TCCController.h"
 
-
-CommunicationManager::CommunicationManager()
-{
+CommunicationManager::CommunicationManager() {
 	ncomm = &NComm::getInstance();
 }
 
-CommunicationManager::~CommunicationManager()
-{
+CommunicationManager::~CommunicationManager() {
 	ncomm = nullptr;
 }
 
@@ -16,8 +14,6 @@ void CommunicationManager::onConnected(NTcpSession& session) {
 	cout << "Connected to server " << session.getPeerAddress() << endl;
 	this->session = &session;
 	tcp_connected = true;
-
-	send(START);
 }
 
 void CommunicationManager::onDisconnected(NTcpSession& session) {
@@ -36,6 +32,7 @@ void CommunicationManager::onReceiveData(NTcpSession& session) {
 		// 공중위협 좌표 정보를 읽어온다.
 		memcpy(&msg, &message, sizeof(Message));
 		printf("%.2lf, %.2lf\n", message.start_pos.x, message.start_pos.y);
+
 		//opInfo->setThreatTargetPosition(x, y);
 		break;
 

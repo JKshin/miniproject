@@ -89,6 +89,7 @@ BEGIN_MESSAGE_MAP(CMiniProjectGUIDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BTN_STOP, &CMiniProjectGUIDlg::OnBnClickedBtnStop)
 	ON_BN_CLICKED(IDC_BTN_FIRE_MISSILE, &CMiniProjectGUIDlg::OnBnClickedBtnFireMissile)
 	ON_BN_CLICKED(IDC_BUTTON_COMM_SET, &CMiniProjectGUIDlg::OnBnClickedButtonCommSet)
+	//ON_LBN_SELCHANGE(IDC_LIST_EVENT, &CMiniProjectGUIDlg::OnLbnSelchangeListEvent)
 END_MESSAGE_MAP()
 
 
@@ -251,6 +252,21 @@ void CMiniProjectGUIDlg::OnBnClickedBtnFireMissile()
 }
 
 
+void CMiniProjectGUIDlg::OnLbnSelchangeListEvent(CString log_message)
+{
+	CListBox* pList = (CListBox*)GetDlgItem(IDC_LIST_EVENT);
+
+	CTime currentTime;
+	currentTime = CTime::GetCurrentTime();
+	CString strTime;
+	strTime.Format(L"(%02d:%02d:%02d) %s", currentTime.GetHour(), currentTime.GetMinute(), currentTime.GetSecond(),
+		log_message);
+
+	pList->AddString(strTime);
+	pList->SetCurSel(pList->GetCount() - 1);
+}
+
+
 void CMiniProjectGUIDlg::OnBnClickedButtonCommSet()
 {
 	// 통신설정 버튼
@@ -258,9 +274,9 @@ void CMiniProjectGUIDlg::OnBnClickedButtonCommSet()
 
 	string addr = CT2CA(m_str_server_address.operator LPCWSTR()); // cstring to string
 	comm.setTcpConnectionInfo(addr, _ttoi(m_str_server_port));
-	comm.connect();
-	AfxMessageBox(m_str_server_address);
+	if (comm.connect()) {
+		OnLbnSelchangeListEvent(L"TCP 연결: " + m_str_server_address +
+			L", " + m_str_server_port);
+	}
 }
-
-
 
