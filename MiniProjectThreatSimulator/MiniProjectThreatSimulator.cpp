@@ -10,10 +10,9 @@ int main()
 	commManager.setTcpConnectionInfo(ip, port);
 	commManager.initialize();
 
+
+
 	cin.get();
-	
-	
-	
 
 	return 0;
 }

@@ -164,6 +164,10 @@
   <ItemGroup>
     <ClInclude Include="AirThreatManager.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CommunicationManager.h" />
+    <ClInclude Include="msg.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
