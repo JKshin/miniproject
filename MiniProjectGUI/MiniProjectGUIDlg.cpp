@@ -12,6 +12,8 @@
 #define new DEBUG_NEW
 #endif
 
+#include <iostream>
+using namespace std;
 
 // 응용 프로그램 정보에 사용되는 CAboutDlg 대화 상자입니다.
 
@@ -72,6 +74,8 @@ void CMiniProjectGUIDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_MISSILE_X, m_strTxtMissilePosition_X);
 	DDX_Text(pDX, IDC_EDIT_MISSILE_Y, m_strTxtMissilePosition_Y);
 	DDX_Control(pDX, IDC_STATIC_DISPLAY, m_ctrlDisplay);
+	DDX_Text(pDX, IDC_EDIT_SERVER_ADDR, m_str_server_address);
+	DDX_Text(pDX, IDC_EDIT_SERVER_PORT, m_str_server_port);
 }
 
 BEGIN_MESSAGE_MAP(CMiniProjectGUIDlg, CDialogEx)
@@ -84,7 +88,7 @@ BEGIN_MESSAGE_MAP(CMiniProjectGUIDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BTN_START, &CMiniProjectGUIDlg::OnBnClickedBtnStart)
 	ON_BN_CLICKED(IDC_BTN_STOP, &CMiniProjectGUIDlg::OnBnClickedBtnStop)
 	ON_BN_CLICKED(IDC_BTN_FIRE_MISSILE, &CMiniProjectGUIDlg::OnBnClickedBtnFireMissile)
-	ON_BN_CLICKED(IDC_BTN_TEST, &CMiniProjectGUIDlg::OnBnClickedBtnTest)
+	ON_BN_CLICKED(IDC_BUTTON_COMM_SET, &CMiniProjectGUIDlg::OnBnClickedButtonCommSet)
 END_MESSAGE_MAP()
 
 
@@ -128,6 +132,8 @@ BOOL CMiniProjectGUIDlg::OnInitDialog()
 	m_strTxtThreatPosition_Y = "0";
 	m_strTxtMissilePosition_X = "0";
 	m_strTxtMissilePosition_Y = "0";
+	m_str_server_address = "127.0.0.1";
+	m_str_server_port = "5000";
 
 	UpdateData(FALSE);
 
@@ -245,54 +251,16 @@ void CMiniProjectGUIDlg::OnBnClickedBtnFireMissile()
 }
 
 
-void CMiniProjectGUIDlg::OnBnClickedBtnTest()
+void CMiniProjectGUIDlg::OnBnClickedButtonCommSet()
 {
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	if (testThread != nullptr)
-	{
-		testThread->join();
-		delete testThread;
-	}
-	testThread = new thread(bind(&CMiniProjectGUIDlg::testFunc, this));
-}
+	// 통신설정 버튼
+	UpdateData(TRUE);
 
-void CMiniProjectGUIDlg::testFunc()
-{
-	// 화면의 모든 객체를 지움
-	displayController.reset();
-
-	// 위협 궤적의 색상을 지정
-	displayController.setThreatTrajectoryColor(0, 0, 255);
-	// 유도탄 궤적의 색상을 지정
-	displayController.setMissileTrajectoryColor(255, 0, 0);
-	// 화면 좌표계의 크기를 지정(가로를 지정하면 세로는 자동으로 설정됨)
-	displayController.setCoordinateWidth(400);
-
-	// 위협 객체 생성
-	displayController.createThreatObject(100, 100);
-	std::this_thread::sleep_for(std::chrono::milliseconds(100));
-	// 유도탄 객체 생성
-	displayController.createMissileObject(300, 250);
-	std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	string addr = CT2CA(m_str_server_address.operator LPCWSTR()); // cstring to string
+	comm.setTcpConnectionInfo(addr, _ttoi(m_str_server_port));
 	
-	// 위협 및 유도탄 객체 위치 갱신
-	displayController.updateThreatPosition(120, 110);
-	std::this_thread::sleep_for(std::chrono::milliseconds(100));
-	displayController.updateMissilePosition(280, 200);
-	std::this_thread::sleep_for(std::chrono::milliseconds(500));
-
-	displayController.updateThreatPosition(140, 120);
-	std::this_thread::sleep_for(std::chrono::milliseconds(100));
-	displayController.updateMissilePosition(250, 180);
-	std::this_thread::sleep_for(std::chrono::milliseconds(500));
-
-	displayController.updateThreatPosition(160, 125);
-	std::this_thread::sleep_for(std::chrono::milliseconds(100));
-	displayController.updateMissilePosition(220, 170);
-	std::this_thread::sleep_for(std::chrono::milliseconds(500));
-
-	displayController.updateThreatPosition(185, 130);
-	std::this_thread::sleep_for(std::chrono::milliseconds(100));
-	displayController.updateMissilePosition(190, 140);
-	std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	
 }
+
+
+

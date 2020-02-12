@@ -5,6 +5,7 @@
 #pragma once
 #include "CDisplayStatic.h"
 #include "DisplayController.h"
+#include "CommunicationManager.h"
 
 #include <thread>
 #include <functional>
@@ -14,6 +15,8 @@ using std::thread;
 using std::bind;
 using std::placeholders::_1;
 using std::placeholders::_2;
+
+
 
 // CMiniProjectGUIDlg 대화 상자
 class CMiniProjectGUIDlg : public CDialogEx
@@ -61,4 +64,12 @@ public:
 	afx_msg void OnBnClickedBtnFireMissile();
 	CDisplayStatic m_ctrlDisplay;
 	afx_msg void OnBnClickedBtnTest();
+	afx_msg void OnBnClickedButtonCommSet();
+	afx_msg void OnEnChangeEditServerAddr();
+	afx_msg void OnEnChangeEditServerPort();
+	CString m_str_server_address;
+	CString m_str_server_port;
+
+private:
+	CommunicationManager& comm = CommunicationManager::getInstance();
 };

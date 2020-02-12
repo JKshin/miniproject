@@ -196,16 +196,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CDisplayStatic.h" />
+    <ClInclude Include="CommunicationManager.h" />
     <ClInclude Include="DisplayController.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MiniProjectGUI.h" />
     <ClInclude Include="MiniProjectGUIDlg.h" />
+    <ClInclude Include="msg.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CDisplayStatic.cpp" />
+    <ClCompile Include="CommunicationManager.cpp" />
     <ClCompile Include="DisplayController.cpp" />
     <ClCompile Include="MiniProjectGUI.cpp" />
     <ClCompile Include="MiniProjectGUIDlg.cpp" />
