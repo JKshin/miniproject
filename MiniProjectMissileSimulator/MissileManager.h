@@ -16,6 +16,7 @@ public:
 	void start();
 	void stop();
 	void sendPosition();
+	void sendInterceptMessage();
 	void initStartPosition(Point currentPosition);
 	static MissileManager* getInstance();
 	void missileManagerFuntion(void* args);
