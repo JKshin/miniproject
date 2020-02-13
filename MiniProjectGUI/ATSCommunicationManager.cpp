@@ -22,13 +22,12 @@ void ATSCommunicationManager::onReceiveData(NTcpSession& session) {
 	Message msg;
 	session.recv((unsigned char*)& msg, sizeof(Message));
 
-	switch (message.id) {
+	switch (msg.id) {
 	case ATS_POSITION:
 		// 공중위협 좌표 정보를 읽어온다.
-		guiDlg->Alert(L"Received ATS_POSITION!");
-		memcpy(&msg, &message, sizeof(Message));
+		//guiDlg->Alert(L"Received ATS_POSITION!");
 
-		tccController->setAtsCurPosition(message.start_pos);
+		tccController->setAtsCurPosition(msg.start_pos);
 		////////////////////////////////////////////////////
 
 		//@신재권 슈도코드 추가

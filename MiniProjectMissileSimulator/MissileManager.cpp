@@ -64,11 +64,13 @@ void MissileManager::start() {
 	PositionTempATS.x, PositionTempATS.y = 0;
 	missile->missileManagerThread = new std::thread(std::bind(&MissileManager::missileManagerFuntion, this, placeholders::_1), nullptr);
 }
+
 void MissileManager::stop() {
 	stateOfObject = false;
+	missile->isFinish = true;
 	missile->~MissileManager(); // 소멸자
-
 }
+
 void MissileManager::sendPosition() {
 	CommunicationManager commManager;
 	Message message;

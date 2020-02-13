@@ -21,20 +21,19 @@ void MSSCommunicationManager::onReceiveData(NTcpSession& session) {
 	CMiniProjectGUIDlg* guiDlg = CMiniProjectGUIDlg::getInstance();
 	Message msg;
 	session.recv((unsigned char*)& msg, sizeof(Message));
-	guiDlg->Alert(L"Received Data!");
-	switch (message.id) {
+	//guiDlg->Alert(L"Received Data!");
+	switch (msg.id) {
 	case MSS_POSITION:
-		guiDlg->Alert(L"Received MSS_POSITION!");
+		//guiDlg->Alert(L"Received MSS_POSITION!");
 		// 유도탄 좌표 정보를 읽어온다.
-		memcpy(&msg, &message, sizeof(Message));
 
-		tccController->setMssCurPosition(message.start_pos);
+		tccController->setMssCurPosition(msg.start_pos);
 		////////////////////////////////////////////////////
 
 		tccController->drawMSS();
 		break;
 	case INTERCEPT:
-		guiDlg->Alert(L"Received INTERCEPT!");
+		//guiDlg->Alert(L"Received INTERCEPT!");
 		// 요격 여부 UI에 알림
 		tccController->displayEvent();
 
