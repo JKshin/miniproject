@@ -30,7 +30,7 @@ void MSSCommunicationManager::onReceiveData(NTcpSession& session) {
 		tccController->setMssCurPosition(msg.start_pos);
 		////////////////////////////////////////////////////
 
-		tccController->drawMSS();
+		//tccController->drawMSS();
 		break;
 	case INTERCEPT:
 		//guiDlg->Alert(L"Received INTERCEPT!");

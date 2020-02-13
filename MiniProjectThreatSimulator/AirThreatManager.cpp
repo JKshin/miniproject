@@ -28,7 +28,7 @@ void AirThreatManager::airThreatFuntion(void* args){
 	while (!airThreat->isFinish) {
 		airThreat->movecoordinate();
 		airThreat->sendPosition();
-		Sleep(1000);
+		Sleep(100);
 	}
 }
 

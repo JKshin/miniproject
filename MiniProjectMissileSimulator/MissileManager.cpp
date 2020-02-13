@@ -25,7 +25,7 @@ void MissileManager::missileManagerFuntion(void* args) {
 		missile->movecoordinate(*missionManager->getPositionOfATS());
 		missionManager->CheckHit(missile->currentPosition);
 		missile->sendPosition();
-		Sleep(1000);
+		Sleep(100);
 	}
 }
 

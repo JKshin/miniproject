@@ -35,7 +35,8 @@ void ATSCommunicationManager::onReceiveData(NTcpSession& session) {
 		msg.id = ATS_POSITION;
 		//msg.start_pos은 그대로 남아있다.
 		mssComm->send(msg);
-		tccController->drawATS();
+		
+		//tccController->drawATS();
 
 
 

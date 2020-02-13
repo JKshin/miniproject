@@ -273,6 +273,13 @@ void CMiniProjectGUIDlg::OnBnClickedBtnStart()
 		int i = 1;
 		int isHit = 0;
 
+		if (tccController->startScenario())
+		{
+			//OnLbnSelchangeListEvent(L"운용 시작");
+			//control_status.SetWindowText(L"운용 시작");
+		}
+
+		atsDraw();
 		//@신재권 수정
 		if (atsThread != nullptr)
 		{
@@ -287,11 +294,6 @@ void CMiniProjectGUIDlg::OnBnClickedBtnStart()
 		//std::this_thread::sleep_for(std::chrono::milliseconds(500));
 		//sleep타임동안 ThreatPosition_X, ThreatPosition_Y 값을 받아오고 업데이트한다.
 
-		if (tccController->startScenario())
-		{
-			//OnLbnSelchangeListEvent(L"운용 시작");
-			//control_status.SetWindowText(L"운용 시작");
-		}
 		//return;
 		//atsDraw();
 		
@@ -302,6 +304,8 @@ void CMiniProjectGUIDlg::OnBnClickedBtnStart()
 
 void CMiniProjectGUIDlg::atsDraw()
 {
+	TCCController* tccController = TCCController::getInstance();
+
 	// 화면 지우기
 	displayController.reset();
 
@@ -311,9 +315,20 @@ void CMiniProjectGUIDlg::atsDraw()
 	// 화면 좌표계의 크기를 지정(가로를 지정하면 세로는 자동으로 설정됨)
 	displayController.setCoordinateWidth(400);
 
-	// 위협 및 유도탄 객체 위치 갱신
-	displayController.updateThreatPosition(ThreatPosition_X, ThreatPosition_Y);
-	//std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	// 위협 객체 생성
+	displayController.createThreatObject(ThreatPosition_X, ThreatPosition_Y);
+	std::this_thread::sleep_for(std::chrono::milliseconds(500));
+
+	while (1)
+	{
+		ThreatPosition_X = tccController->getAtsCurPosition().x;
+		ThreatPosition_Y = tccController->getAtsCurPosition().y;
+		// 위협 및 유도탄 객체 위치 갱신
+		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+		displayController.updateThreatPosition(ThreatPosition_X, ThreatPosition_Y);
+		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	}
+	
 	// 화면의 모든 객체를 지움
 	//displayController.reset();
 
@@ -355,19 +370,19 @@ void CMiniProjectGUIDlg::OnBnClickedBtnFireMissile()
 {
 	if (checkStatus == 1)
 	{
+		OnLbnSelchangeListEvent(L"유도탄 발사 명령");
+
 		TCCController* tccController = TCCController::getInstance();
 		tccController->fireMissile();
 
 		//@신재권 수정
-		/*if (mssThread != nullptr)
+		if (mssThread != nullptr)
 		{
 			mssThread->join();
 			delete mssThread;
 		}
 
-		mssThread = new thread(bind(&CMiniProjectGUIDlg::mssDraw, this));*/
-
-		OnLbnSelchangeListEvent(L"유도탄 발사 명령");
+		mssThread = new thread(bind(&CMiniProjectGUIDlg::mssDraw, this));
 	}
 
 	else
@@ -418,8 +433,30 @@ void CMiniProjectGUIDlg::OnBnClickedButtonCommSet()
 
 void CMiniProjectGUIDlg::mssDraw()
 {
-	// 유도탄 궤적의 색상을 지정
+	TCCController* tccController = TCCController::getInstance();
+
+	// 위협 궤적의 색상을 지정
 	displayController.setMissileTrajectoryColor(255, 0, 0);
+
+	// 화면 좌표계의 크기를 지정(가로를 지정하면 세로는 자동으로 설정됨)
+	displayController.setCoordinateWidth(400);
+
+	// 위협 객체 생성
+	displayController.createMissileObject(MissilePosition_X, MissilePosition_Y);
+	std::this_thread::sleep_for(std::chrono::milliseconds(500));
+
+	while (1)
+	{
+		MissilePosition_X = tccController->getMssCurPosition().x;
+		MissilePosition_Y = tccController->getMssCurPosition().y;
+		// 유도탄 객체 위치 갱신
+		displayController.updateMissilePosition(MissilePosition_X, MissilePosition_Y);
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+	}
+
+
+	// 유도탄 궤적의 색상을 지정
+	/*displayController.setMissileTrajectoryColor(255, 0, 0);
 	// 화면 좌표계의 크기를 지정(가로를 지정하면 세로는 자동으로 설정됨)
 	displayController.setCoordinateWidth(400);
 
@@ -466,11 +503,13 @@ void CMiniProjectGUIDlg::mssDraw()
 		}
 
 		++i;
-	}
+	}*/
 
 	// 위협 및 유도탄 객체 위치 갱신
 	//displayController.updateMissilePosition(_ttoi(m_strTxtMissilePosition_X) + 10, _ttoi(m_strTxtMissilePosition_Y)+10);
 	//std::this_thread::sleep_for(std::chrono::milliseconds(500));
+
+
 
 }
 
