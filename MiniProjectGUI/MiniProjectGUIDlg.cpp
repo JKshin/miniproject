@@ -275,11 +275,11 @@ void CMiniProjectGUIDlg::OnBnClickedBtnStart()
 
 		if (tccController->startScenario())
 		{
-			//OnLbnSelchangeListEvent(L"운용 시작");
-			//control_status.SetWindowText(L"운용 시작");
+			OnLbnSelchangeListEvent(L"운용 시작");
+			control_status.SetWindowText(L"운용 시작");
 		}
 
-		atsDraw();
+		//atsDraw();
 		//@신재권 수정
 		if (atsThread != nullptr)
 		{
@@ -289,14 +289,6 @@ void CMiniProjectGUIDlg::OnBnClickedBtnStart()
 
 		atsThread = new thread(bind(&CMiniProjectGUIDlg::atsDraw, this));
 
-		// 위협 객체 생성
-		//displayController.createThreatObject(ThreatPosition_X, ThreatPosition_Y);
-		//std::this_thread::sleep_for(std::chrono::milliseconds(500));
-		//sleep타임동안 ThreatPosition_X, ThreatPosition_Y 값을 받아오고 업데이트한다.
-
-		//return;
-		//atsDraw();
-		
 	}
 	else
 		OnLbnSelchangeListEvent(L"시나리오 설정 요망");
@@ -319,35 +311,29 @@ void CMiniProjectGUIDlg::atsDraw()
 	displayController.createThreatObject(ThreatPosition_X, ThreatPosition_Y);
 	std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
+	int count = 0;
+	double ATS_v = 5;
+	float ATS_theta, ATS_x, ATS_y;
+	int i = 1;
+	int isHit = 0;
+	double alpha = 10;
+	double targetRange = 5;
+
 	while (1)
 	{
+		// 위협 객체 위치 갱신
 		ThreatPosition_X = tccController->getAtsCurPosition().x;
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
 		ThreatPosition_Y = tccController->getAtsCurPosition().y;
-		// 위협 및 유도탄 객체 위치 갱신
-		std::this_thread::sleep_for(std::chrono::milliseconds(500));
-		displayController.updateThreatPosition(ThreatPosition_X, ThreatPosition_Y);
-		std::this_thread::sleep_for(std::chrono::milliseconds(500));
-	}
-	
-	// 화면의 모든 객체를 지움
-	//displayController.reset();
-
-	/*while (isHit == 0 && checkStatus == 1) {
-		ATS_theta = atan2
-		(ThreatTargetPosition_Y - ThreatPosition_Y,
-			ThreatTargetPosition_X - ThreatPosition_X);
-
-		ATS_x = ThreatPosition_X + ATS_v * cos(ATS_theta) * i;
-		ATS_y = ThreatPosition_Y + ATS_v * sin(ATS_theta) * i;
-
-		displayController.updateThreatPosition(ATS_x, ATS_y);
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 		displayController.updateThreatPosition(ThreatPosition_X, ThreatPosition_Y);
-
 		std::this_thread::sleep_for(std::chrono::milliseconds(300));
 
-		//++i;
-	}*/
+		count++;
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	}
 }
 
 void CMiniProjectGUIDlg::OnBnClickedBtnStop()
@@ -389,48 +375,6 @@ void CMiniProjectGUIDlg::OnBnClickedBtnFireMissile()
 		OnLbnSelchangeListEvent(L"시나리오 설정 요망");
 }
 
-//이벤트 처리 로그 표시 기능
-void CMiniProjectGUIDlg::OnLbnSelchangeListEvent(CString log_message)
-{
-	CListBox* pList = (CListBox*)GetDlgItem(IDC_LIST_EVENT);
-
-	CTime currentTime;
-	currentTime = CTime::GetCurrentTime();
-	CString strTime;
-	strTime.Format(L"(%02d:%02d:%02d) %s", currentTime.GetHour(), currentTime.GetMinute(), currentTime.GetSecond(),
-		log_message);
-
-	pList->AddString(strTime);
-	pList->SetCurSel(pList->GetCount() - 1);
-}
-
-
-void CMiniProjectGUIDlg::OnBnClickedButtonCommSet()
-{
-	//@신재권 수정
-	//CommunicationManager* comm = CommunicationManager::getInstance();
-	CommunicationManager* atsComm = ATSCommunicationManager::getInstance();
-	CommunicationManager* mssComm = MSSCommunicationManager::getInstance();
-	ushort atsPort = _ttoi(m_str_server_port);
-	ushort mssPort = _ttoi(m_str_server_port) + 1;
-	// 통신설정 버튼
-	UpdateData(TRUE);
-
-	string addr = CT2CA(m_str_server_address.operator LPCWSTR()); // cstring to string
-	atsComm->setTcpConnectionInfo(addr, atsPort);
-	if (atsComm->connect()) {
-		OnLbnSelchangeListEvent(L"ATS TCP 연결: " + m_str_server_address +
-			L", " + m_str_server_port);
-	}
-	mssComm->setTcpConnectionInfo(addr, mssPort);
-	if (mssComm->connect()) {
-		OnLbnSelchangeListEvent(L"MSS TCP 연결: " + m_str_server_address +
-			L", " + m_str_server_port + L"+1");
-	}
-	//@@@뒤에 +1 붙인거 수정해야함.
-
-}
-
 void CMiniProjectGUIDlg::mssDraw()
 {
 	TCCController* tccController = TCCController::getInstance();
@@ -448,10 +392,13 @@ void CMiniProjectGUIDlg::mssDraw()
 	while (1)
 	{
 		MissilePosition_X = tccController->getMssCurPosition().x;
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
 		MissilePosition_Y = tccController->getMssCurPosition().y;
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		// 유도탄 객체 위치 갱신
 		displayController.updateMissilePosition(MissilePosition_X, MissilePosition_Y);
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+		std::this_thread::sleep_for(std::chrono::milliseconds(300));
 	}
 
 
@@ -513,6 +460,50 @@ void CMiniProjectGUIDlg::mssDraw()
 
 }
 
+//이벤트 처리 로그 표시 기능
+void CMiniProjectGUIDlg::OnLbnSelchangeListEvent(CString log_message)
+{
+	CListBox* pList = (CListBox*)GetDlgItem(IDC_LIST_EVENT);
+
+	CTime currentTime;
+	currentTime = CTime::GetCurrentTime();
+	CString strTime;
+	strTime.Format(L"(%02d:%02d:%02d) %s", currentTime.GetHour(), currentTime.GetMinute(), currentTime.GetSecond(),
+		log_message);
+
+	pList->AddString(strTime);
+	pList->SetCurSel(pList->GetCount() - 1);
+}
+
+
+void CMiniProjectGUIDlg::OnBnClickedButtonCommSet()
+{
+	//@신재권 수정
+	//CommunicationManager* comm = CommunicationManager::getInstance();
+	CommunicationManager* atsComm = ATSCommunicationManager::getInstance();
+	CommunicationManager* mssComm = MSSCommunicationManager::getInstance();
+	ushort atsPort = _ttoi(m_str_server_port);
+	ushort mssPort = _ttoi(m_str_server_port) + 1;
+	// 통신설정 버튼
+	UpdateData(TRUE);
+
+	string addr = CT2CA(m_str_server_address.operator LPCWSTR()); // cstring to string
+	atsComm->setTcpConnectionInfo(addr, atsPort);
+	if (atsComm->connect()) {
+		OnLbnSelchangeListEvent(L"ATS TCP 연결: " + m_str_server_address +
+			L", " + m_str_server_port);
+	}
+	mssComm->setTcpConnectionInfo(addr, mssPort);
+	if (mssComm->connect()) {
+		OnLbnSelchangeListEvent(L"MSS TCP 연결: " + m_str_server_address +
+			L", " + m_str_server_port + L"+1");
+	}
+	//@@@뒤에 +1 붙인거 수정해야함.
+
+}
+
+
+
 void CMiniProjectGUIDlg::OnStnClickedStaticDisplay()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -525,21 +516,21 @@ void CMiniProjectGUIDlg::Alert(CString str) {
 
 void CMiniProjectGUIDlg::changeType()
 {
-	ThreatPosition_X = _ttoi(m_strTxtThreatPosition_X);
-	ThreatPosition_Y = _ttoi(m_strTxtThreatPosition_Y);
-	ThreatTargetPosition_X = _ttoi(m_strTxtThreatTargetPosition_X);
-	ThreatTargetPosition_Y = _ttoi(m_strTxtThreatTargetPosition_Y);
-	MissilePosition_X = _ttoi(m_strTxtMissilePosition_X);
-	MissilePosition_Y = _ttoi(m_strTxtMissilePosition_Y);
+	ThreatPosition_X = _wtof(m_strTxtThreatPosition_X);
+	ThreatPosition_Y = _wtof(m_strTxtThreatPosition_Y);
+	ThreatTargetPosition_X = _wtof(m_strTxtThreatTargetPosition_X);
+	ThreatTargetPosition_Y = _wtof(m_strTxtThreatTargetPosition_Y);
+	MissilePosition_X = _wtof(m_strTxtMissilePosition_X);
+	MissilePosition_Y = _wtof(m_strTxtMissilePosition_Y);
 }
 
 void CMiniProjectGUIDlg::stopAndReset()
 {
 	positionInit();
 
+	displayController.reset();
 	UpdateData(FALSE);
 
-	displayController.reset();
 	checkStatus = 0;
 }
 

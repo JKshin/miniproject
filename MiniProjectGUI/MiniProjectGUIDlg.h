@@ -96,12 +96,12 @@ public:
 	CString m_str_server_port;
 
 private:
-	float ThreatPosition_X;
-	float ThreatPosition_Y;
-	float ThreatTargetPosition_X;
-	float ThreatTargetPosition_Y;
-	float MissilePosition_X;
-	float MissilePosition_Y;
+	double ThreatPosition_X;
+	double ThreatPosition_Y;
+	double ThreatTargetPosition_X;
+	double ThreatTargetPosition_Y;
+	double MissilePosition_X;
+	double MissilePosition_Y;
 
 	//운용 상태 확인.. 
 	int checkStatus = 0;
