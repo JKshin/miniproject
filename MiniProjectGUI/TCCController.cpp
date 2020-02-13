@@ -138,15 +138,16 @@ void TCCController::displayStatus()
 {
 }
 
-bool TCCController::getCheckHit()
+int TCCController::getCheckHit()
 {
 	return checkHit;
 }
 
-void TCCController::checkIntercept(bool checkHitVal)
+void TCCController::checkIntercept(int checkHitVal)
 {
 	CMiniProjectGUIDlg* projectGUIDlg = CMiniProjectGUIDlg::getInstance();
 	projectGUIDlg->hitCheckFunc(checkHitVal);
+
 	checkHit = checkHitVal;
 }
 

@@ -84,7 +84,7 @@ CMiniProjectGUIDlg::CMiniProjectGUIDlg(CWnd* pParent /*=nullptr*/)
 	MissilePosition_Y = 0;
 
 	checkStatus = 0;
-	hitCheck = false;
+	hitCheck = 0;
 }
 
 void CMiniProjectGUIDlg::DoDataExchange(CDataExchange* pDX)
@@ -311,7 +311,7 @@ void CMiniProjectGUIDlg::atsDraw()
 	displayController.createThreatObject(ThreatPosition_X, ThreatPosition_Y);
 	std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
-	while (!hitCheck)
+	while (hitCheck == 0)
 	{
 		// 위협 객체 위치 갱신
 		ThreatPosition_X = tccController->getAtsCurPosition().x;
@@ -380,7 +380,7 @@ void CMiniProjectGUIDlg::mssDraw()
 	displayController.createMissileObject(MissilePosition_X, MissilePosition_Y);
 	std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
-	while (!hitCheck)
+	while (hitCheck == 0)
 	{
 		MissilePosition_X = tccController->getMssCurPosition().x;
 		//std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -394,8 +394,11 @@ void CMiniProjectGUIDlg::mssDraw()
 		hitCheck = tccController->getCheckHit();
 	}
 
-	if(hitCheck)
+	if(hitCheck == 1)
 		OnLbnSelchangeListEvent(L"요격 성공");
+
+	if (hitCheck == 2)
+		OnLbnSelchangeListEvent(L"요격 실패");
 
 }
 
@@ -466,7 +469,7 @@ void CMiniProjectGUIDlg::stopAndReset()
 	UpdateData(FALSE);
 
 	checkStatus = 0;
-	hitCheck = false;
+	hitCheck = 0;
 }
 
 void CMiniProjectGUIDlg::setPosition()
@@ -488,7 +491,7 @@ void CMiniProjectGUIDlg::OnLbnSelchangeListEvent()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
 
-void CMiniProjectGUIDlg::hitCheckFunc(bool hitCheckVal)
+void CMiniProjectGUIDlg::hitCheckFunc(int hitCheckVal)
 {
 	hitCheck = hitCheckVal;
 }

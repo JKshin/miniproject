@@ -60,7 +60,7 @@ public:
 	void changeType();
 	void stopAndReset();
 	void positionInit();
-	void hitCheckFunc(bool hitCheckVal);
+	void hitCheckFunc(int);
 
 	void setPosition();
 
@@ -102,7 +102,7 @@ private:
 
 	//운용 상태 확인.. 
 	int checkStatus;
-	volatile bool hitCheck;
+	int hitCheck;
 	static CMiniProjectGUIDlg* projectGUIDlg;
 
 public:

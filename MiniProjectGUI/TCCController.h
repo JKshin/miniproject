@@ -37,8 +37,8 @@ public:
 	void drawATS();
 	void drawMSS();
 	void displayStatus();
-	void checkIntercept(bool);
-	bool getCheckHit();
+	void checkIntercept(int);
+	int getCheckHit();
 	void fireMissile();
 
 private:
@@ -47,7 +47,7 @@ private:
 	Position atsEndPosition;
 	Position mssCurPosition;
 	
-	bool checkHit;
+	int checkHit;
 
 	static TCCController* tccController;
 };
