@@ -26,6 +26,7 @@
 #define IDC_EDIT_SERVER_PORT            1016
 #define IDC_BUTTON_COMM_SET             1017
 #define IDC_STATIC1                     1018
+#define IDC_EDIT_SERVER_PORT2           1019
 
 // Next default values for new objects
 // 

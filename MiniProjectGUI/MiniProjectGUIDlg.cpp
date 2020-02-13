@@ -73,6 +73,7 @@ CMiniProjectGUIDlg::CMiniProjectGUIDlg(CWnd* pParent /*=nullptr*/)
 	, m_strTxtThreatTargetPosition_Y(_T(""))
 	, m_strTxtMissilePosition_X(_T(""))
 	, m_strTxtMissilePosition_Y(_T(""))
+	, m_str_server_port2(_T(""))
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -90,6 +91,7 @@ void CMiniProjectGUIDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_STATIC1, control_status);
 	DDX_Text(pDX, IDC_EDIT_SERVER_ADDR, m_str_server_address);
 	DDX_Text(pDX, IDC_EDIT_SERVER_PORT, m_str_server_port);
+	DDX_Text(pDX, IDC_EDIT_SERVER_PORT2, m_str_server_port2);
 }
 
 BEGIN_MESSAGE_MAP(CMiniProjectGUIDlg, CDialogEx)
@@ -165,7 +167,7 @@ void CMiniProjectGUIDlg::positionInit()
 	m_strTxtMissilePosition_Y = "0";
 	m_str_server_address = "127.0.0.1";
 	m_str_server_port = "5000";
-
+	m_str_server_port2 = "5001";
 }
 
 void CMiniProjectGUIDlg::OnSysCommand(UINT nID, LPARAM lParam)
@@ -412,7 +414,8 @@ void CMiniProjectGUIDlg::OnBnClickedButtonCommSet()
 	CommunicationManager* atsComm = ATSCommunicationManager::getInstance();
 	CommunicationManager* mssComm = MSSCommunicationManager::getInstance();
 	ushort atsPort = _ttoi(m_str_server_port);
-	ushort mssPort = _ttoi(m_str_server_port) + 1;
+	ushort mssPort = _ttoi(m_str_server_port2);
+
 	// 통신설정 버튼
 	UpdateData(TRUE);
 
@@ -425,7 +428,7 @@ void CMiniProjectGUIDlg::OnBnClickedButtonCommSet()
 	mssComm->setTcpConnectionInfo(addr, mssPort);
 	if (mssComm->connect()) {
 		OnLbnSelchangeListEvent(L"MSS TCP 연결: " + m_str_server_address +
-			L", " + m_str_server_port + L"+1");
+			L", " + m_str_server_port2);
 	}
 	//@@@뒤에 +1 붙인거 수정해야함.
 

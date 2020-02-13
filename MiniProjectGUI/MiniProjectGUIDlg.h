@@ -87,7 +87,7 @@ public:
 	afx_msg void OnBnClickedButtonCommSet();
 	afx_msg void OnEnChangeEditServerAddr();
 	afx_msg void OnEnChangeEditServerPort();
-
+	afx_msg void OnEnChangeEditServerPort2();
 	//@신재권 추가
 	afx_msg void Alert(CString str);
 
@@ -112,4 +112,5 @@ private:
 	static CMiniProjectGUIDlg* projectGUIDlg;
 public:
 	afx_msg void OnLbnSelchangeListEvent();
+	CString m_str_server_port2;
 };
