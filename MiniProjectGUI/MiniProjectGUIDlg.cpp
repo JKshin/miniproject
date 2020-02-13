@@ -323,13 +323,13 @@ void CMiniProjectGUIDlg::atsDraw()
 	{
 		// 위협 객체 위치 갱신
 		ThreatPosition_X = tccController->getAtsCurPosition().x;
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		//std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 		ThreatPosition_Y = tccController->getAtsCurPosition().y;
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		//std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 		displayController.updateThreatPosition(ThreatPosition_X, ThreatPosition_Y);
-		std::this_thread::sleep_for(std::chrono::milliseconds(300));
+		//std::this_thread::sleep_for(std::chrono::milliseconds(300));
 
 		count++;
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -392,13 +392,13 @@ void CMiniProjectGUIDlg::mssDraw()
 	while (1)
 	{
 		MissilePosition_X = tccController->getMssCurPosition().x;
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		//std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 		MissilePosition_Y = tccController->getMssCurPosition().y;
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		//std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		// 유도탄 객체 위치 갱신
 		displayController.updateMissilePosition(MissilePosition_X, MissilePosition_Y);
-		std::this_thread::sleep_for(std::chrono::milliseconds(300));
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 
 

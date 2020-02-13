@@ -19,6 +19,7 @@ public:
 	void initStartPosition(Point currentPosition);
 	static MissileManager* getInstance();
 	void missileManagerFuntion(void* args);
+	Point getCurrentPosition() { return currentPosition; };
 
 private:
 	double velocity; // 시간당 속도

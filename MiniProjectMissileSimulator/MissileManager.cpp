@@ -23,8 +23,9 @@ void MissileManager::missileManagerFuntion(void* args) {
 	MissionManager* missionManager = MissionManager::getInstance();
 	while (!missile->isFinish) {
 		missile->movecoordinate(*missionManager->getPositionOfATS());
-		missionManager->CheckHit(missile->currentPosition);
-		missile->sendPosition();
+		missionManager->setPositionOfMSS(missile->currentPosition);
+		//missionManager->CheckHit(missile->currentPosition);
+		//missile->sendPosition();
 		Sleep(100);
 	}
 }
@@ -53,13 +54,13 @@ void MissileManager::movecoordinate(Point PositionOfATS) { //endPosition = ATS ì
 	PositionTempATS.x = PositionOfATS.x;
 	PositionTempATS.y = PositionOfATS.y;
 
-	cout << "currentPosition.x = " << currentPosition.x << "currentPosition.y = " << currentPosition.y << endl;
-	cout << "PositionTempATS.x = " << PositionTempATS.x << "PositionTempATS.y = " << PositionTempATS.y << endl;
+	//cout << "currentPosition.x = " << currentPosition.x << "currentPosition.y = " << currentPosition.y << endl;
+	//cout << "PositionTempATS.x = " << PositionTempATS.x << "PositionTempATS.y = " << PositionTempATS.y << endl;
 
 }
 
 void MissileManager::start() {
-	velocity = 20;
+	velocity = 5;
 	period = 1000;
 	PositionTempATS.x, PositionTempATS.y = 0;
 	missile->missileManagerThread = new std::thread(std::bind(&MissileManager::missileManagerFuntion, this, placeholders::_1), nullptr);

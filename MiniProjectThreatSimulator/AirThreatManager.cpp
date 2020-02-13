@@ -63,7 +63,7 @@ void AirThreatManager::movecoordinate() {
 
 
 void AirThreatManager::start() {
-	velocity = 1;
+	velocity = 2;
 	period = 1000;
 	airThreat->airThreatThread = new std::thread(std::bind(&AirThreatManager::airThreatFuntion, this, placeholders::_1), nullptr);
 }

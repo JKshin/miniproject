@@ -69,8 +69,7 @@ bool TCCController::startScenario() // 시나리오 시작
 	//comm->setPosition();
 	//@신재권 추가 및 수정
 	message.id = START;
-	message.start_pos = atsCurPosition;
-	message.end_pos = atsEndPosition;
+	message.start_pos = mssCurPosition;
 	//comm->send(START)
 	mssComm->send(message);//시나리오 시작 알리기
 	//////////////////////////////////////////////////////
