@@ -34,11 +34,9 @@ Point* MissionManager::getPositionOfATS(void) { //갱신된 데이터를 미사일 매니저�
 
 bool MissionManager::CheckHit(Point PositionOfMSS) {
 
-	if(sqrt(pow(positionOfATS.x - positionOfMSS.x, 2) + pow(positionOfATS.y 
-		- positionOfMSS.y, 2)) < targetRange){
+	if(sqrt(pow(positionOfATS.x - positionOfMSS.x, 2) + pow(positionOfATS.y - positionOfMSS.y, 2)) < targetRange){
 		isHit = true;
-		return isHit;
-		}
+	}
 	
 	return isHit;
 }
