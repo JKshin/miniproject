@@ -309,7 +309,7 @@ void CMiniProjectGUIDlg::atsDraw()
 
 	// 위협 객체 생성
 	displayController.createThreatObject(ThreatPosition_X, ThreatPosition_Y);
-	std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 	while (hitCheck == 0)
 	{
@@ -328,11 +328,15 @@ void CMiniProjectGUIDlg::atsDraw()
 		hitCheck = tccController->getCheckHit();
 	}
 
-	if (hitCheck == 1)
-		OnLbnSelchangeListEvent(L"요격 성공");
 
 	if (hitCheck == 2)
+	{
 		OnLbnSelchangeListEvent(L"요격 실패");
+		//std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+		//stopAndReset();
+	}
+		
+	hitCheck = 0;
 }
 
 void CMiniProjectGUIDlg::OnBnClickedBtnStop()
@@ -384,7 +388,7 @@ void CMiniProjectGUIDlg::mssDraw()
 
 	// 위협 객체 생성
 	displayController.createMissileObject(MissilePosition_X, MissilePosition_Y);
-	std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 	while (hitCheck == 0)
 	{
@@ -400,12 +404,14 @@ void CMiniProjectGUIDlg::mssDraw()
 		hitCheck = tccController->getCheckHit();
 	}
 
-	if(hitCheck == 1)
+	if (hitCheck == 1)
+	{
 		OnLbnSelchangeListEvent(L"요격 성공");
-
-	if (hitCheck == 2)
-		OnLbnSelchangeListEvent(L"요격 실패");
-
+		//std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+		//stopAndReset();
+	}
+		
+	hitCheck = 0;
 }
 
 //이벤트 처리 로그 표시 기능
