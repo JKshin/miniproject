@@ -14,11 +14,8 @@ public:
 
 	struct Position getAtsCurPosition() { return atsCurPosition; };
 	struct Position getAtsEndPosition() { return atsEndPosition; };
-	//@재권 수정
-	//struct Position getMssStartPosition() { return mssStartPosition; };
 	struct Position getMssStartPosition() { return mssCurPosition; };
-	/////////////////////////////////////////////////////////////////
-	
+
 	//@재권 추가
 	struct Position getMssCurPosition() { return mssCurPosition; };
 	
@@ -40,23 +37,17 @@ public:
 	void drawATS();
 	void drawMSS();
 	void displayStatus();
-	void displayEvent();
+	void checkIntercept(bool);
+	bool getCheckHit();
 	void fireMissile();
 
 private:
 	TCCController();
 	Position atsCurPosition;
 	Position atsEndPosition;
-	
-	//@재권 수정
-	//Position mssStartPosition;
-	
-	//@재권 추가
 	Position mssCurPosition;
-	/////////////////////////
+	
+	bool checkHit;
 
 	static TCCController* tccController;
-
-	//CMiniProjectGUIDlg* cGUIDlg;
-	//DisplayController* displayController;
 };

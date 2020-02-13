@@ -1,5 +1,4 @@
-﻿
-// MiniProjectGUIDlg.h: 헤더 파일
+﻿// MiniProjectGUIDlg.h: 헤더 파일
 //
 
 #pragma once
@@ -19,7 +18,7 @@ using std::placeholders::_2;
 // CMiniProjectGUIDlg 대화 상자
 class CMiniProjectGUIDlg : public CDialogEx
 {
-// 생성입니다.
+	// 생성입니다.
 public:
 	CMiniProjectGUIDlg(CWnd* pParent = nullptr);	// 표준 생성자입니다.
 
@@ -28,7 +27,7 @@ public:
 	enum { IDD = IDD_MINIPROJECTGUI_DIALOG };
 #endif
 
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 지원입니다.
 
 
@@ -41,8 +40,6 @@ protected:
 
 	thread* atsThread;
 	thread* mssThread;
-
-	//void testFunc();
 
 	// 생성된 메시지 맵 함수
 	virtual BOOL OnInitDialog();
@@ -63,6 +60,7 @@ public:
 	void changeType();
 	void stopAndReset();
 	void positionInit();
+	void hitCheckFunc(bool hitCheckVal);
 
 	void setPosition();
 
@@ -78,22 +76,21 @@ public:
 	afx_msg void OnBnClickedBtnFireMissile();
 	CDisplayStatic m_ctrlDisplay;
 	afx_msg void OnBnClickedBtnTest();
-
 	afx_msg void OnEnChangeEditThreatTargetY();
 	afx_msg void OnEnChangeEditThreatX();
 	afx_msg void OnLbnSelchangeListEvent(CString log_message);
 	afx_msg void OnStnClickedStaticDisplay();
-	
 	afx_msg void OnBnClickedButtonCommSet();
 	afx_msg void OnEnChangeEditServerAddr();
 	afx_msg void OnEnChangeEditServerPort();
-	afx_msg void OnEnChangeEditServerPort2();
+
 	//@신재권 추가
 	afx_msg void Alert(CString str);
 
 	CStatic control_status;
 	CString m_str_server_address;
 	CString m_str_server_port;
+	CString m_str_server_port2;
 
 private:
 	double ThreatPosition_X;
@@ -104,13 +101,11 @@ private:
 	double MissilePosition_Y;
 
 	//운용 상태 확인.. 
-	int checkStatus = 0;
-
-	//float ATS_theta, ATS_x, ATS_y;
-	double estimated_ATS_x, estimated_ATS_y;
-
+	int checkStatus;
+	volatile bool hitCheck;
 	static CMiniProjectGUIDlg* projectGUIDlg;
+
 public:
 	afx_msg void OnLbnSelchangeListEvent();
-	CString m_str_server_port2;
+	
 };

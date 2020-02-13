@@ -35,7 +35,7 @@ void MSSCommunicationManager::onReceiveData(NTcpSession& session) {
 	case INTERCEPT:
 		//guiDlg->Alert(L"Received INTERCEPT!");
 		// 요격 여부 UI에 알림
-		tccController->displayEvent();
+		tccController->checkIntercept(true);
 		message.id = STOP_FINISH;
 		session.send((unsigned char*)& message, sizeof(Message));
 		atsComm->send(message);

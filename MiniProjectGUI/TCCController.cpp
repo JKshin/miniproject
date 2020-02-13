@@ -17,6 +17,8 @@ TCCController::TCCController()
 	atsEndPosition.y = 0.0f;
 	mssCurPosition.x = 0.0f;
 	mssCurPosition.y = 0.0f;
+
+	checkHit = false;
 }
 
 TCCController* TCCController::getInstance()
@@ -45,6 +47,9 @@ void TCCController::setScenario(
 	//this->mssStartPosition.y = mss_start_y;
 	this->mssCurPosition.x = mss_start_x;
 	this->mssCurPosition.y = mss_start_y;
+
+	// ??
+	checkHit = false;
 }
 
 
@@ -123,27 +128,29 @@ void TCCController::drawATS()
 }
 void TCCController::drawMSS()
 {
-	//@신재권 수정
-	//CommunicationManager* comm = CommunicationManager::getInstance();
 	CMiniProjectGUIDlg* projectGUIDlg = CMiniProjectGUIDlg::getInstance();
-
-	//@신재권 수정
-	//atsCurPosition = comm->getAtsCurPosition();
-	//atsEndPosition = comm->getAtsEndPosition();
-	//mssStartPosition = comm->getMssStartPosition();
-	/////////////////////////////////////////////////
 
 	projectGUIDlg->setPosition();
 	projectGUIDlg->mssDraw();
 }
+
 void TCCController::displayStatus()
 {
-
 }
-void TCCController::displayEvent()
+
+bool TCCController::getCheckHit()
 {
-
+	return checkHit;
 }
+
+void TCCController::checkIntercept(bool checkHitVal)
+{
+	CMiniProjectGUIDlg* projectGUIDlg = CMiniProjectGUIDlg::getInstance();
+	projectGUIDlg->hitCheckFunc(checkHitVal);
+	checkHit = checkHitVal;
+}
+
+
 void TCCController::fireMissile()
 {
 	CommunicationManager* mssComm = MSSCommunicationManager::getInstance();
