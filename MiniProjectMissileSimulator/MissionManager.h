@@ -8,6 +8,7 @@ public:
 	void setPositionOfATS(Point positionOfATS);
 	Point* getPositionOfATS(void);
 	bool CheckHit(Point PositionOfMSS);
+	void setPositionOfMSS(Point PositionOfMSS);
 	void sendHitEventToTCC();
 	void start();
 	void stop();

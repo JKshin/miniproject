@@ -36,6 +36,9 @@ void MSSCommunicationManager::onReceiveData(NTcpSession& session) {
 		//guiDlg->Alert(L"Received INTERCEPT!");
 		// 요격 여부 UI에 알림
 		tccController->displayEvent();
+		message.id = STOP_FINISH;
+		session.send((unsigned char*)& message, sizeof(Message));
+		atsComm->send(message);
 
 		//@신재권 슈도코드 추가
 		//미사일로부터 요격 신호가 온 것이므로 프로그램을 종료하고 객체를 소멸시키라는 메시지를 미사일과 대공 위협에게 전달.

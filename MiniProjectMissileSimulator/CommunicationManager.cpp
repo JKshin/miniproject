@@ -60,7 +60,7 @@ void CommunicationManager::onReceiveData(NTcpSession& session)
 	Message message;
 	MissionManager* missionManager = MissionManager::getInstance();
 	MissileManager* missileManager = MissileManager::getInstance();
-
+	this->session = &session;
 	session.recv((unsigned char*)& message, sizeof(Message));
 	cout << "RECEIVED!!!" << endl;
 	switch (message.id)
@@ -88,8 +88,19 @@ void CommunicationManager::onReceiveData(NTcpSession& session)
 	break;
 	case ATS_POSITION:
 	{
-		cout << "ATS Position is ("<<message.start_pos.x<<","<< message.start_pos.y <<")" << endl;
+		//cout << "ATS Position is (" << message.start_pos.x << "," << message.start_pos.y << ")" << endl;
 		missionManager->setPositionOfATS(message.start_pos);
+		
+		if (missionManager->CheckHit(missileManager->getCurrentPosition())) {
+			message.id = INTERCEPT;
+			session.send((unsigned char*)& message, sizeof(Message));
+		}
+		else {
+			message.id = MSS_POSITION;
+			message.start_pos = missileManager->getCurrentPosition();
+			session.send((unsigned char*)& message, sizeof(Message));
+		}
+		
 	}
 	break;
 	case STOP_FINISH:
