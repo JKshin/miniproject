@@ -35,12 +35,12 @@ class CAboutDlg : public CDialogEx
 public:
 	CAboutDlg();
 
-// 대화 상자 데이터입니다.
+	// 대화 상자 데이터입니다.
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_ABOUTBOX };
 #endif
 
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.
 
 // 구현입니다.
@@ -103,7 +103,7 @@ BEGIN_MESSAGE_MAP(CMiniProjectGUIDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BTN_STOP, &CMiniProjectGUIDlg::OnBnClickedBtnStop)
 	ON_BN_CLICKED(IDC_BTN_FIRE_MISSILE, &CMiniProjectGUIDlg::OnBnClickedBtnFireMissile)
 	ON_BN_CLICKED(IDC_BUTTON_COMM_SET, &CMiniProjectGUIDlg::OnBnClickedButtonCommSet)
-	//ON_LBN_SELCHANGE(IDC_LIST_EVENT, &CMiniProjectGUIDlg::OnLbnSelchangeListEvent)
+	ON_LBN_SELCHANGE(IDC_LIST_EVENT, &CMiniProjectGUIDlg::OnLbnSelchangeListEvent)
 	ON_STN_CLICKED(IDC_STATIC_DISPLAY, &CMiniProjectGUIDlg::OnStnClickedStaticDisplay)
 END_MESSAGE_MAP()
 
@@ -258,34 +258,82 @@ void CMiniProjectGUIDlg::OnBnClickedBtnResetPositions()
 }
 
 
+//통신연결 된 상태에서 시나리오 시작.
 void CMiniProjectGUIDlg::OnBnClickedBtnStart()
 {
 	if (checkStatus == 1)
 	{
 		TCCController* tccController = TCCController::getInstance();
-		// 화면 지우기
-		displayController.reset();
+
+		//위협, 유도탄 객체 속력에 따라 변하는 좌표값들을 출력해준다.
+		/*double ATS_v = 5;
+		float ATS_theta, ATS_x, ATS_y;
+		double alpha = 10;
+		double targetRange = 5;*/
+		int i = 1;
+		int isHit = 0;
 
 		//@신재권 수정
-		/*if (atsThread != nullptr)
+		if (atsThread != nullptr)
 		{
 			atsThread->join();
 			delete atsThread;
 		}
 
-		atsThread = new thread(bind(&CMiniProjectGUIDlg::atsDraw, this));*/
+		atsThread = new thread(bind(&CMiniProjectGUIDlg::atsDraw, this));
 
-		OnLbnSelchangeListEvent(L"운용 시작");
-		control_status.SetWindowText(L"운용 시작");
+		// 위협 객체 생성
+		//displayController.createThreatObject(ThreatPosition_X, ThreatPosition_Y);
+		//std::this_thread::sleep_for(std::chrono::milliseconds(500));
+		//sleep타임동안 ThreatPosition_X, ThreatPosition_Y 값을 받아오고 업데이트한다.
 
 		if (tccController->startScenario())
-			return;
+		{
+			//OnLbnSelchangeListEvent(L"운용 시작");
+			//control_status.SetWindowText(L"운용 시작");
+		}
+		//return;
+		//atsDraw();
+		
 	}
 	else
 		OnLbnSelchangeListEvent(L"시나리오 설정 요망");
 }
 
+void CMiniProjectGUIDlg::atsDraw()
+{
+	// 화면 지우기
+	displayController.reset();
 
+	// 위협 궤적의 색상을 지정
+	displayController.setThreatTrajectoryColor(0, 0, 255);
+
+	// 화면 좌표계의 크기를 지정(가로를 지정하면 세로는 자동으로 설정됨)
+	displayController.setCoordinateWidth(400);
+
+	// 위협 및 유도탄 객체 위치 갱신
+	displayController.updateThreatPosition(ThreatPosition_X, ThreatPosition_Y);
+	//std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	// 화면의 모든 객체를 지움
+	//displayController.reset();
+
+	/*while (isHit == 0 && checkStatus == 1) {
+		ATS_theta = atan2
+		(ThreatTargetPosition_Y - ThreatPosition_Y,
+			ThreatTargetPosition_X - ThreatPosition_X);
+
+		ATS_x = ThreatPosition_X + ATS_v * cos(ATS_theta) * i;
+		ATS_y = ThreatPosition_Y + ATS_v * sin(ATS_theta) * i;
+
+		displayController.updateThreatPosition(ATS_x, ATS_y);
+
+		displayController.updateThreatPosition(ThreatPosition_X, ThreatPosition_Y);
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
+		//++i;
+	}*/
+}
 
 void CMiniProjectGUIDlg::OnBnClickedBtnStop()
 {
@@ -349,7 +397,7 @@ void CMiniProjectGUIDlg::OnBnClickedButtonCommSet()
 	CommunicationManager* atsComm = ATSCommunicationManager::getInstance();
 	CommunicationManager* mssComm = MSSCommunicationManager::getInstance();
 	ushort atsPort = _ttoi(m_str_server_port);
-	ushort mssPort = _ttoi(m_str_server_port)+1;
+	ushort mssPort = _ttoi(m_str_server_port) + 1;
 	// 통신설정 버튼
 	UpdateData(TRUE);
 
@@ -366,46 +414,6 @@ void CMiniProjectGUIDlg::OnBnClickedButtonCommSet()
 	}
 	//@@@뒤에 +1 붙인거 수정해야함.
 
-}
-
-void CMiniProjectGUIDlg::atsDraw()
-{
-	// 화면의 모든 객체를 지움
-	displayController.reset();
-
-	// 위협 궤적의 색상을 지정
-	displayController.setThreatTrajectoryColor(0, 0, 255);
-
-	// 화면 좌표계의 크기를 지정(가로를 지정하면 세로는 자동으로 설정됨)
-	displayController.setCoordinateWidth(400);
-
-	//위협, 유도탄 객체 속력에 따라 변하는 좌표값들을 출력해준다.
-	double ATS_v = 5;
-	float ATS_theta, ATS_x, ATS_y;
-	int i = 1;
-	int isHit = 0;
-	double alpha = 10;
-	double targetRange = 5;
-
-	// 위협 객체 생성
-	displayController.createThreatObject(ThreatPosition_X, ThreatPosition_Y);
-	std::this_thread::sleep_for(std::chrono::milliseconds(500));
-	//sleep타임동안 ThreatPosition_X, ThreatPosition_Y 값을 받아오고 업데이트한다.
-
-	while (isHit == 0 && checkStatus == 1) {
-		ATS_theta = atan2
-		(ThreatTargetPosition_Y - ThreatPosition_Y,
-			ThreatTargetPosition_X - ThreatPosition_X);
-
-		ATS_x = ThreatPosition_X + ATS_v * cos(ATS_theta) * i;
-		ATS_y = ThreatPosition_Y + ATS_v * sin(ATS_theta) * i;
-
-		displayController.updateThreatPosition(ATS_x, ATS_y);
-
-		std::this_thread::sleep_for(std::chrono::milliseconds(300));
-
-		++i;
-	}
 }
 
 void CMiniProjectGUIDlg::mssDraw()
@@ -514,4 +522,9 @@ void CMiniProjectGUIDlg::setPosition()
 	MissilePosition_X = tccController->getMssCurPosition().x;
 	MissilePosition_Y = tccController->getMssCurPosition().y;
 
+}
+
+void CMiniProjectGUIDlg::OnLbnSelchangeListEvent()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }

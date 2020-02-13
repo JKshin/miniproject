@@ -110,4 +110,6 @@ private:
 	double estimated_ATS_x, estimated_ATS_y;
 
 	static CMiniProjectGUIDlg* projectGUIDlg;
+public:
+	afx_msg void OnLbnSelchangeListEvent();
 };
