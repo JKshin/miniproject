@@ -281,7 +281,7 @@ void CMiniProjectGUIDlg::OnBnClickedBtnStart()
 			//control_status.SetWindowText(L"운용 시작");
 		}
 
-		atsDraw();
+		//atsDraw();
 		//@신재권 수정
 		if (atsThread != nullptr)
 		{
@@ -326,9 +326,8 @@ void CMiniProjectGUIDlg::atsDraw()
 		ThreatPosition_X = tccController->getAtsCurPosition().x;
 		ThreatPosition_Y = tccController->getAtsCurPosition().y;
 		// 위협 및 유도탄 객체 위치 갱신
-		std::this_thread::sleep_for(std::chrono::milliseconds(500));
 		displayController.updateThreatPosition(ThreatPosition_X, ThreatPosition_Y);
-		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 	
 	// 화면의 모든 객체를 지움
@@ -454,7 +453,7 @@ void CMiniProjectGUIDlg::mssDraw()
 		MissilePosition_Y = tccController->getMssCurPosition().y;
 		// 유도탄 객체 위치 갱신
 		displayController.updateMissilePosition(MissilePosition_X, MissilePosition_Y);
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 
 
