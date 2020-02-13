@@ -30,8 +30,6 @@ void MissileManager::missileManagerFuntion(void* args) {
 		else {
 			missile->sendPosition();
 		}
-		missionManager->CheckHit(missile->currentPosition);
-		missile->sendPosition();
 		Sleep(100);
 	}
 }

@@ -37,7 +37,7 @@ Point* MissionManager::getPositionOfATS(void) { //갱신된 데이터를 미사일 매니저�
 
 bool MissionManager::CheckHit(Point PositionOfMSS) {
 	double diff = sqrt(pow(positionOfATS.x - positionOfMSS.x, 2) + pow(positionOfATS.y - positionOfMSS.y, 2));
-	cout << "diff : " << diff << endl;
+	cout << "distance : " << diff << endl;
 	if(diff < targetRange){
 		cout << "INTERCEPT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
 		isHit = true;
