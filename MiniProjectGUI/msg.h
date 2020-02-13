@@ -6,7 +6,8 @@ enum header_id {
 	FIRE_MISSILE, // 유도탄 발사
 	ATS_POSITION, // ATS 현재 위치 
 	MSS_POSITION, // 유도탄 현재 위치
-	INTERCEPT // 요격 여부
+	INTERCEPT, // 요격 여부
+	INTERCEPT_FAIL // 요격 여부
 };
 
 struct Position {

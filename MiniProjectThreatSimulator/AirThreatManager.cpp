@@ -30,6 +30,11 @@ void AirThreatManager::airThreatFuntion(void* args){
 		airThreat->sendPosition();
 		Sleep(100);
 	}
+	if (airThreat->isSafe) {
+		airThreat->sendInterceptFailMessage();
+		cout << "I'm Safe!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
+	}
+
 }
 
 AirThreatManager* AirThreatManager::getInstance() {
@@ -53,8 +58,11 @@ void AirThreatManager::movecoordinate() {
 
 	double distanceFromStartPositionToEndPosition = GetDistanceFromPoints(startPosition, endPosition);
 	double distanceFromStartPositionToCurrentPosition = GetDistanceFromPoints(startPosition, currentPosition);
-	if (distanceFromStartPositionToEndPosition < distanceFromStartPositionToCurrentPosition)
+	if (distanceFromStartPositionToEndPosition < distanceFromStartPositionToCurrentPosition) {
 		currentPosition = endPosition;
+		airThreat->isFinish = true;
+		airThreat->isSafe = true;
+	}
 
 	cout << "currentPosition.x = " << currentPosition.x << "currentPosition.y = " << currentPosition.y << endl;
 
@@ -65,6 +73,8 @@ void AirThreatManager::movecoordinate() {
 void AirThreatManager::start() {
 	velocity = 2;
 	period = 1000;
+	airThreat->isFinish = false;
+	airThreat->isSafe = false;
 	airThreat->airThreatThread = new std::thread(std::bind(&AirThreatManager::airThreatFuntion, this, placeholders::_1), nullptr);
 }
 void AirThreatManager::stop() {
@@ -72,6 +82,14 @@ void AirThreatManager::stop() {
 	airThreat->isFinish = true;
 	Sleep(1000);
 	airThreat->~AirThreatManager(); // 소멸자
+}
+
+void AirThreatManager::sendInterceptFailMessage() {
+	CommunicationManager commManager;
+	Message message;
+	Point currentPoint;
+	message.id = INTERCEPT_FAIL;
+	commManager.sendMessage(message);
 }
 
 void AirThreatManager::sendPosition() {

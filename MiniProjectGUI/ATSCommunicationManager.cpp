@@ -41,5 +41,9 @@ void ATSCommunicationManager::onReceiveData(NTcpSession& session) {
 
 
 		break;
+	case INTERCEPT_FAIL:
+		msg.id = STOP_FINISH;
+		mssComm->send(msg);
+		session.send((unsigned char*)& msg, sizeof(Message));
 	}
 }
