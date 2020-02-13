@@ -327,6 +327,12 @@ void CMiniProjectGUIDlg::atsDraw()
 
 		hitCheck = tccController->getCheckHit();
 	}
+
+	if (hitCheck == 1)
+		OnLbnSelchangeListEvent(L"요격 성공");
+
+	if (hitCheck == 2)
+		OnLbnSelchangeListEvent(L"요격 실패");
 }
 
 void CMiniProjectGUIDlg::OnBnClickedBtnStop()
