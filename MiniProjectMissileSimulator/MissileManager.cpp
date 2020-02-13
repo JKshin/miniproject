@@ -69,6 +69,8 @@ void MissileManager::start() {
 	velocity = 5;
 	period = 1000;
 	PositionTempATS.x, PositionTempATS.y = 0;
+	stateOfObject = true;
+	missile->isFinish = false;
 	missile->missileManagerThread = new std::thread(std::bind(&MissileManager::missileManagerFuntion, this, placeholders::_1), nullptr);
 }
 
