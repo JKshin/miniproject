@@ -2,6 +2,9 @@
 #include<cmath>
 #include<functional>
 #include"MissileManager.h"
+#include"MissionManager.h"
+#include"CommunicationManager.h"
+#include<Windows.h>
 
 using namespace std;
 
@@ -13,6 +16,17 @@ MissileManager* MissileManager::getInstance() {
 		missile->stateOfObject = true;
 	}
 	return missile;
+}
+
+void MissileManager::missileManagerFuntion(void* args) {
+	
+	MissionManager* missionManager = MissionManager::getInstance();
+	while (!missile->isFinish) {
+		missile->movecoordinate(*missionManager->getPositionOfATS());
+		missionManager->CheckHit(missile->currentPosition);
+		missile->sendPosition();
+		Sleep(1000);
+	}
 }
 
 void MissileManager::movecoordinate(Point PositionOfATS) { //endPosition = ATS 좌표
@@ -48,6 +62,7 @@ void MissileManager::start() {
 	velocity = 20;
 	period = 1000;
 	PositionTempATS.x, PositionTempATS.y = 0;
+	missile->missileManagerThread = new std::thread(std::bind(&MissileManager::missileManagerFuntion, this, placeholders::_1), nullptr);
 }
 void MissileManager::stop() {
 	stateOfObject = false;
@@ -55,12 +70,12 @@ void MissileManager::stop() {
 
 }
 void MissileManager::sendPosition() {
-	/*CommunicationManager commManager;
+	CommunicationManager commManager;
 	Message message;
 	Point currentPoint;
 	message.id = MSS_POSITION;
 	message.start_pos = missile->currentPosition;
-	commManager.sendMessage(message);*/
+	commManager.sendMessage(message);
 
 }
 

@@ -1,19 +1,18 @@
 #pragma once
-#include"MissileManager.h"
+#include "msg.h"
+#include <thread>
 
-struct Point {
-	double x;
-	double y;
-};
 
 class MissionManager {
 public:
 	void setPositionOfATS(Point positionOfATS);
-	void getPositionOfATS(Point* PositionOfATS);
+	Point* getPositionOfATS(void);
 	bool CheckHit(Point PositionOfMSS);
 	void sendHitEventToTCC();
+	void start();
+	void stop();
 	bool stateOfObject; // 按眉 积己 家戈 0, 1
-
+	
 	static MissionManager* getInstance();
 
 private:

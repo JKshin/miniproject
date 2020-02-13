@@ -14,7 +14,22 @@ public:
 
 	struct Position getAtsCurPosition() { return atsCurPosition; };
 	struct Position getAtsEndPosition() { return atsEndPosition; };
-	struct Position getMssStartPosition() { return mssStartPosition; };
+	//@재권 수정
+	//struct Position getMssStartPosition() { return mssStartPosition; };
+	struct Position getMssStartPosition() { return mssCurPosition; };
+	/////////////////////////////////////////////////////////////////
+	
+	//@재권 추가
+	struct Position getMssCurPosition() { return mssCurPosition; };
+	
+	void setAtsCurPosition(Position atsCurPosition) {
+		this->atsCurPosition = atsCurPosition;
+	}
+	
+	void setMssCurPosition(Position mssCurPosition) {
+		this->mssCurPosition = mssCurPosition;
+	}
+	///////////////////////////////////////////////////////
 
 	bool startScenario(); // 시나리오 시작
 	bool stopScenario(); // 시나리오 중지
@@ -30,10 +45,15 @@ public:
 
 private:
 	TCCController();
-
 	Position atsCurPosition;
 	Position atsEndPosition;
-	Position mssStartPosition;
+	
+	//@재권 수정
+	//Position mssStartPosition;
+	
+	//@재권 추가
+	Position mssCurPosition;
+	/////////////////////////
 
 	static TCCController* tccController;
 

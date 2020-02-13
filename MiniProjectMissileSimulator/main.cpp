@@ -1,4 +1,5 @@
-#include "AirThreatManager.h"
+#include "MissileManager.h"
+#include "MissionManager.h"
 #include "CommunicationManager.h"
 
 int main() {
@@ -6,7 +7,8 @@ int main() {
 	//@신재권 수정
 	ushort port;
 	CommunicationManager* commManager = CommunicationManager::getInstance();
-	AirThreatManager* airThreatManager = AirThreatManager::getInstance();
+	MissionManager* missionManager = MissionManager::getInstance();
+	MissileManager* misileManager = MissileManager::getInstance();
 	cout << "port : ";
 	cin >> port;
 	commManager->setTcpConnectionInfo("127.0.0.1", port);

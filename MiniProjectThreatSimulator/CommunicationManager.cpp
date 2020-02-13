@@ -60,27 +60,26 @@ void CommunicationManager::onReceiveData(NTcpSession& session)
 	AirThreatManager* AirThreat = AirThreatManager::getInstance();
 
 	session.recv((unsigned char*)& Message, sizeof(Message));
-
-	do {
-		switch (Message.id)
-		{
-		case START:
-		{
-			//초기 위치 및 최종 위치 설정 및 이륙
-			cout << "START!!!" << endl;
-			AirThreat->initStartAndEndPosition(Message.start_pos, Message.end_pos);
-			AirThreat->start();
+	cout << "RECEIVED!!!" << endl;
+	switch (Message.id)
+	{
+	case START:
+	{
+		//초기 위치 및 최종 위치 설정 및 이륙
+		cout << "START!!!" << endl;
+		AirThreat->initStartAndEndPosition(Message.start_pos, Message.end_pos);
+		AirThreat->start();
 			
-		}
-		break;
-		case STOP_FINISH:
-		{
-			//객체 소멸
-			AirThreat->stop();
-		}
-		break;
-		}
-	} while (Message.id != STOP_FINISH);
+	}
+	break;
+	case STOP_FINISH:
+	{
+		cout << "FINISH!!!" << endl;
+		//객체 소멸
+		AirThreat->stop();
+	}
+	break;
+	}
 }
 
 bool CommunicationManager::initialize()
@@ -101,8 +100,10 @@ bool CommunicationManager::initialize()
 
 void CommunicationManager::sendMessage(Message message)
 {
-	if (session != nullptr)
+	if (session != nullptr) {
+		cout << "send " << message.id << endl;
 		session->send((unsigned char*)& message, sizeof(Message));
+	}
 }
 
 void CommunicationManager::setTcpConnectionInfo(std::string ip, ushort port)

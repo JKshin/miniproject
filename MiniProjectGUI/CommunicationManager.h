@@ -13,10 +13,9 @@ typedef unsigned short ushort;
 
 
 class CommunicationManager : public NTcpConnectionEvent, public NTcpReceiveDataEvent {
-private:
-	Position atsCurPosition;
-	Position atsEndPosition;
-	Position mssStartPosition;
+//@신재권 수정
+//private:
+protected:
 
 	Message message; // 통신 메시지
 	header_id header;
@@ -46,15 +45,11 @@ public:
 	bool connect();
 	void disconnect();
 
-	void send(header_id id);
+	void send(Message message);
 	void receive();
 
-	static CommunicationManager* getInstance();
+	//@신재권 수정
+	//static CommunicationManager* getInstance();
 
-	void setPosition();
-
-	struct Position getAtsCurPosition() { return atsCurPosition; };
-	struct Position getAtsEndPosition() { return atsEndPosition; };
-	struct Position getMssStartPosition() { return mssStartPosition; };
 
 };

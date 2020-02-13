@@ -1,5 +1,15 @@
 #include "CommunicationManager.h"
+#include "MissileManager.h"
+#include "MissionManager.h"
 
+CommunicationManager* CommunicationManager::commManager;
+
+CommunicationManager* CommunicationManager::getInstance() {
+	if (!commManager) {
+		commManager = new CommunicationManager();
+	}
+	return commManager;
+}
 
 CommunicationManager::CommunicationManager()
 {
@@ -47,37 +57,50 @@ void CommunicationManager::onDisconnected(NTcpSession& session)
 
 void CommunicationManager::onReceiveData(NTcpSession& session)
 {
-	Message Message;
+	Message message;
+	MissionManager* missionManager = MissionManager::getInstance();
+	MissileManager* missileManager = MissileManager::getInstance();
 
-	session.recv((unsigned char*)& Message, sizeof(Message));
+	session.recv((unsigned char*)& message, sizeof(Message));
+	cout << "RECEIVED!!!" << endl;
+	switch (message.id)
+	{
+		//START, // 시나리오 시작
+		//	STOP_FINISH,  // 시나리오 중지/종료
+		//	FIRE_MISSILE, // 유도탄 발사
+		//	ATS_POSITION, // ATS 현재 위치 
+		//	MSS_POSITION, // 유도탄 현재 위치
+		//	INTERCEPT // 요격 여부
+	case START:
+	{
+		//초기 위치 설정
+		cout << "START!!!" << endl;
+		missileManager->initStartPosition(message.start_pos);
 
-	do{
-		switch (Message.id)
-		{
-		case START:
-		{
-			//초기 위치 설정 및 발사 대기
-		}
-		break;
-		case STOP_FINISH:
-		{
-			//객체 소멸
-		}
-		break;
-
-		case FIRE_MISSILE:
-		{
-			//미사일 발사
-		}
-		break;
-
-		case ATS_POSITION:
-		{
-			//ATS_POSITION 갱신
-		}
-		break;
-		}
-	}while (Message.id != STOP_FINISH);
+	}
+	break;
+	case FIRE_MISSILE:
+	{
+		cout << "FIRE!!!" << endl;
+		missileManager->start();
+		missionManager->start();
+	}
+	break;
+	case ATS_POSITION:
+	{
+		cout << "ATS Position is ("<<message.start_pos.x<<","<< message.start_pos.y <<")" << endl;
+		missionManager->setPositionOfATS(message.start_pos);
+	}
+	break;
+	case STOP_FINISH:
+	{
+		cout << "FINISH!!!" << endl;
+		missileManager->stop();
+		missionManager->stop();
+		//객체 소멸
+	}
+	break;
+	}
 }
 
 bool CommunicationManager::initialize()
@@ -98,8 +121,10 @@ bool CommunicationManager::initialize()
 
 void CommunicationManager::sendMessage(Message message)
 {
-	if (session != nullptr)
+	if (session != nullptr) {
+		cout << "send " << message.id << endl;
 		session->send((unsigned char*)& message, sizeof(Message));
+	}
 }
 
 void CommunicationManager::setTcpConnectionInfo(std::string ip, ushort port)

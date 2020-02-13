@@ -1,17 +1,19 @@
 #include "pch.h"
 #include "CommunicationManager.h"
 #include "TCCController.h"
+#include "MiniProjectGUIDlg.h"
 
-CommunicationManager* CommunicationManager::comm;
-
-CommunicationManager* CommunicationManager::getInstance()
-{
-	if (!comm) {
-		comm = new CommunicationManager();
-	}
-
-	return comm;
-}
+//@신재권 수정
+//CommunicationManager* CommunicationManager::comm;
+//
+//CommunicationManager* CommunicationManager::getInstance()
+//{
+//	if (!comm) {
+//		comm = new CommunicationManager();
+//	}
+//
+//	return comm;
+//}
 
 CommunicationManager::CommunicationManager() {
 	ncomm = &NComm::getInstance();
@@ -36,33 +38,12 @@ void CommunicationManager::onDisconnected(NTcpSession& session) {
 }
 
 void CommunicationManager::onReceiveData(NTcpSession& session) {
+	CMiniProjectGUIDlg* guiDlg = CMiniProjectGUIDlg::getInstance();
 	Message msg;
-	TCCController* comm = TCCController::getInstance();
-
-	session.recv((unsigned char*)& message, sizeof(Message));
-
-	switch (message.id) {
-	case ATS_POSITION:
-		// 공중위협 좌표 정보를 읽어온다.
-		memcpy(&msg, &message, sizeof(Message));
-		printf("%.2lf, %.2lf\n", message.start_pos.x, message.start_pos.y);
-		comm->drawATS();
-		//opInfo->setThreatTargetPosition(x, y);
-		break;
-
-	case MSS_POSITION:
-		// 유도탄 좌표 정보를 읽어온다.
-		memcpy(&msg, &message, sizeof(Message));
-		printf("%.2lf, %.2lf\n", message.start_pos.x, message.start_pos.y);
-		comm->drawMSS();
-		//opInfo->setMissilePosition(x, y);
-		break;
-	case INTERCEPT:
-		cout << "요격" << endl;
-		// 요격 여부 UI에 알림
-		comm->displayEvent();
-		break;
-	}
+	session.recv((unsigned char*)& msg, sizeof(Message));
+	guiDlg->Alert(L"Received CommMessage!");
+	//@신재권 수정
+	//빈 함수로 변경
 }
 
 void CommunicationManager::setTcpConnectionInfo(string ip, ushort port)
@@ -97,10 +78,13 @@ void CommunicationManager::disconnect()
 	}
 }
 
-
-void CommunicationManager::send(header_id id) {
-	Message message;
-	message.id = id;
+//@신재권 수정
+//void CommunicationManager::send(header_id id) {
+//////////////////////////////////////////////////
+void CommunicationManager::send(Message message) {
+	//@신재권 수정
+	//message.id = id;
+	//////////////////
 
 	/*switch (id) {
 	case START:
@@ -126,10 +110,12 @@ void CommunicationManager::receive() {
 
 }
 
-void CommunicationManager::setPosition() {
-	TCCController* tccController = TCCController::getInstance();
-
-	atsCurPosition = tccController->getAtsCurPosition();
-	atsEndPosition = tccController->getAtsEndPosition();
-	mssStartPosition = tccController->getMssStartPosition();
-};
+//@신재권 수정
+//void CommunicationManager::setPosition() {
+//	TCCController* tccController = TCCController::getInstance();
+//
+//	atsCurPosition = tccController->getAtsCurPosition();
+//	atsEndPosition = tccController->getAtsEndPosition();
+//	mssStartPosition = tccController->getMssStartPosition();
+//};
+/////////////////////////////////////////////////////////////////

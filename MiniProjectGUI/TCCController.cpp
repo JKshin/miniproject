@@ -1,6 +1,10 @@
 #include "pch.h"
 #include "TCCController.h"
-#include "CommunicationManager.h"
+//@신재권 수정 및 추가
+//#include "CommunicationManager.h"
+#include "ATSCommunicationManager.h"
+#include "MSSCommunicationManager.h"
+////////////////////////////////////
 #include "MiniProjectGUIDlg.h"
 
 TCCController* TCCController::tccController = nullptr;
@@ -11,8 +15,8 @@ TCCController::TCCController()
 	atsCurPosition.y = 0.0f;
 	atsEndPosition.x = 0.0f;
 	atsEndPosition.y = 0.0f;
-	mssStartPosition.x = 0.0f;
-	mssStartPosition.y = 0.0f;
+	mssCurPosition.x = 0.0f;
+	mssCurPosition.y = 0.0f;
 }
 
 TCCController* TCCController::getInstance()
@@ -36,58 +40,99 @@ void TCCController::setScenario(
 	this->atsEndPosition.x = ats_end_x;
 	this->atsEndPosition.y = ats_end_y;
 
-	this->mssStartPosition.x = mss_start_x;
-	this->mssStartPosition.y = mss_start_y;
+	//@재권 수정
+	//this->mssStartPosition.x = mss_start_x;
+	//this->mssStartPosition.y = mss_start_y;
+	this->mssCurPosition.x = mss_start_x;
+	this->mssCurPosition.y = mss_start_y;
 }
 
 
 bool TCCController::startScenario() // 시나리오 시작
 {
-	CommunicationManager* comm = CommunicationManager::getInstance();
-
-	if (comm->connect())
-	{
-		comm->setPosition();
-		comm->send(START);//시나리오 시작 알리기
-	}
+	//@신재권 수정
+	//CommunicationManager* comm = CommunicationManager::getInstance();
+	CommunicationManager* atsComm = ATSCommunicationManager::getInstance();
+	CommunicationManager* mssComm = MSSCommunicationManager::getInstance();
+	//@신재권 수정
+	Message message;
+	
+	
+	//comm->setPosition();
+	//@신재권 추가 및 수정
+	message.id = START;
+	message.start_pos = atsCurPosition;
+	message.end_pos = atsEndPosition;
+	//comm->send(START)
+	atsComm->send(message);//시나리오 시작 알리기
+	//////////////////////////////////////////////////////
+	//comm->setPosition();
+	//@신재권 추가 및 수정
+	message.id = START;
+	message.start_pos = atsCurPosition;
+	message.end_pos = atsEndPosition;
+	//comm->send(START)
+	mssComm->send(message);//시나리오 시작 알리기
+	//////////////////////////////////////////////////////
 
 	return true;
 }
 
 bool TCCController::stopScenario() // 시나리오 중지
 {
-	CommunicationManager* comm = CommunicationManager::getInstance();
-
-	comm->send(STOP_FINISH);
+	//@신재권 수정
+	//CommunicationManager* comm = CommunicationManager::getInstance();
+	CommunicationManager* atsComm = ATSCommunicationManager::getInstance();
+	CommunicationManager* mssComm = MSSCommunicationManager::getInstance();
+	Message message;
+	message.id = STOP_FINISH;
+	atsComm->send(message);
+	mssComm->send(message);
+	//comm->send(STOP_FINISH);
 	return true;
 }
 
 void TCCController::finishScenario() // 시나리오 종료
 {
-	CommunicationManager* comm = CommunicationManager::getInstance();
-
-	comm->send(STOP_FINISH);
+	//@신재권 수정
+	//CommunicationManager* comm = CommunicationManager::getInstance();
+	CommunicationManager* atsComm = ATSCommunicationManager::getInstance();
+	CommunicationManager* mssComm = MSSCommunicationManager::getInstance();
+	//@신재권 추가
+	Message message;
+	//@신재권 추가 및 수정
+	message.id = STOP_FINISH;
+	//comm->send(STOP_FINISH)
+	atsComm->send(message);
+	mssComm->send(message);
+	//////////////////////////////////////////////////////
 }
 
 void TCCController::drawATS()
 {
-	CommunicationManager* comm = CommunicationManager::getInstance();
+	//@신재권 수정
+	//CommunicationManager* comm = CommunicationManager::getInstance();
 	CMiniProjectGUIDlg* projectGUIDlg = CMiniProjectGUIDlg::getInstance();
 
-	atsCurPosition = comm->getAtsCurPosition();
-	atsEndPosition = comm->getAtsEndPosition();
+	//@신재권 수정
+	//atsCurPosition = comm->getAtsCurPosition();
+	//atsEndPosition = comm->getAtsEndPosition();
+	//////////////////////////////////////////////
 
 	projectGUIDlg->setPosition();
 	projectGUIDlg->atsDraw();
 }
 void TCCController::drawMSS()
 {
-	CommunicationManager* comm = CommunicationManager::getInstance();
+	//@신재권 수정
+	//CommunicationManager* comm = CommunicationManager::getInstance();
 	CMiniProjectGUIDlg* projectGUIDlg = CMiniProjectGUIDlg::getInstance();
 
-	atsCurPosition = comm->getAtsCurPosition();
-	atsEndPosition = comm->getAtsEndPosition();
-	mssStartPosition = comm->getMssStartPosition();
+	//@신재권 수정
+	//atsCurPosition = comm->getAtsCurPosition();
+	//atsEndPosition = comm->getAtsEndPosition();
+	//mssStartPosition = comm->getMssStartPosition();
+	/////////////////////////////////////////////////
 
 	projectGUIDlg->setPosition();
 	projectGUIDlg->mssDraw();
@@ -102,5 +147,9 @@ void TCCController::displayEvent()
 }
 void TCCController::fireMissile()
 {
+	CommunicationManager* mssComm = MSSCommunicationManager::getInstance();
+	Message message;
+	message.id = FIRE_MISSILE;
 
+	mssComm->send(message);
 }
