@@ -24,8 +24,14 @@ void MissileManager::missileManagerFuntion(void* args) {
 	while (!missile->isFinish) {
 		missile->movecoordinate(*missionManager->getPositionOfATS());
 		missionManager->setPositionOfMSS(missile->currentPosition);
-		//missionManager->CheckHit(missile->currentPosition);
-		//missile->sendPosition();
+		if (missionManager->CheckHit(missile->currentPosition)) {
+			missile->sendInterceptMessage();
+		}
+		else {
+			missile->sendPosition();
+		}
+		missionManager->CheckHit(missile->currentPosition);
+		missile->sendPosition();
 		Sleep(100);
 	}
 }
@@ -72,15 +78,21 @@ void MissileManager::stop() {
 	missile->~MissileManager(); // 소멸자
 }
 
+void MissileManager::sendInterceptMessage() {
+	CommunicationManager* commManager = CommunicationManager::getInstance();
+	Message message;
+	Point currentPoint;
+	message.id = INTERCEPT;
+	commManager->sendMessage(message);
+}
 
 void MissileManager::sendPosition() {
-	CommunicationManager commManager;
+	CommunicationManager* commManager = CommunicationManager::getInstance();
 	Message message;
 	Point currentPoint;
 	message.id = MSS_POSITION;
 	message.start_pos = missile->currentPosition;
-	commManager.sendMessage(message);
-
+	commManager->sendMessage(message);
 }
 
 void MissileManager::initStartPosition(Point startposition) {

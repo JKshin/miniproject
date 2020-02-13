@@ -89,18 +89,7 @@ void CommunicationManager::onReceiveData(NTcpSession& session)
 	case ATS_POSITION:
 	{
 		//cout << "ATS Position is (" << message.start_pos.x << "," << message.start_pos.y << ")" << endl;
-		missionManager->setPositionOfATS(message.start_pos);
-		
-		if (missionManager->CheckHit(missileManager->getCurrentPosition())) {
-			message.id = INTERCEPT;
-			session.send((unsigned char*)& message, sizeof(Message));
-		}
-		else {
-			message.id = MSS_POSITION;
-			message.start_pos = missileManager->getCurrentPosition();
-			session.send((unsigned char*)& message, sizeof(Message));
-		}
-		
+		missionManager->setPositionOfATS(message.start_pos);		
 	}
 	break;
 	case STOP_FINISH:
