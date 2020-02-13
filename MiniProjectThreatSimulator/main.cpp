@@ -7,6 +7,7 @@ int main() {
 	ushort port;
 	CommunicationManager* commManager = CommunicationManager::getInstance();
 	AirThreatManager* airThreatManager = AirThreatManager::getInstance();
+	cout << "ATS"<<endl;
 	cout << "port : ";
 	cin >> port;
 	commManager->setTcpConnectionInfo("127.0.0.1", port);

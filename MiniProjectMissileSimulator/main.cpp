@@ -9,6 +9,7 @@ int main() {
 	CommunicationManager* commManager = CommunicationManager::getInstance();
 	MissionManager* missionManager = MissionManager::getInstance();
 	MissileManager* misileManager = MissileManager::getInstance();
+	cout << "MSS" << endl;
 	cout << "port : ";
 	cin >> port;
 	commManager->setTcpConnectionInfo("127.0.0.1", port);

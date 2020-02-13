@@ -85,11 +85,11 @@ void AirThreatManager::stop() {
 }
 
 void AirThreatManager::sendInterceptFailMessage() {
-	CommunicationManager commManager;
+	CommunicationManager* commManager = CommunicationManager::getInstance();
 	Message message;
 	Point currentPoint;
 	message.id = INTERCEPT_FAIL;
-	commManager.sendMessage(message);
+	commManager->sendMessage(message);
 }
 
 void AirThreatManager::sendPosition() {
