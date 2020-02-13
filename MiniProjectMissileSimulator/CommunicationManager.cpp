@@ -133,7 +133,6 @@ bool CommunicationManager::initialize()
 void CommunicationManager::sendMessage(Message message)
 {
 	if (session != nullptr) {
-		cout << "send " << message.id << endl;
 		session->send((unsigned char*)& message, sizeof(Message));
 	}
 }
