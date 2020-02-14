@@ -82,25 +82,6 @@ void CommunicationManager::disconnect()
 //void CommunicationManager::send(header_id id) {
 //////////////////////////////////////////////////
 void CommunicationManager::send(Message message) {
-	//@신재권 수정
-	//message.id = id;
-	//////////////////
-
-	/*switch (id) {
-	case START:
-
-		break;
-	case STOP_FINISH:
-
-		break;
-	case FIRE_MISSILE:
-		
-		break;
-	case ATS_POSITION:
-		
-		break;
-	}*/
-
 	if (session != nullptr) {
 		session->send((unsigned char*)&message, sizeof(Message));
 	}
@@ -109,13 +90,3 @@ void CommunicationManager::send(Message message) {
 void CommunicationManager::receive() {
 
 }
-
-//@신재권 수정
-//void CommunicationManager::setPosition() {
-//	TCCController* tccController = TCCController::getInstance();
-//
-//	atsCurPosition = tccController->getAtsCurPosition();
-//	atsEndPosition = tccController->getAtsEndPosition();
-//	mssStartPosition = tccController->getMssStartPosition();
-//};
-/////////////////////////////////////////////////////////////////

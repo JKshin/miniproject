@@ -18,7 +18,7 @@ TCCController::TCCController()
 	mssCurPosition.x = 0.0f;
 	mssCurPosition.y = 0.0f;
 
-	checkHit = false;
+	checkHit = 0;
 }
 
 TCCController* TCCController::getInstance()
@@ -49,7 +49,7 @@ void TCCController::setScenario(
 	this->mssCurPosition.y = mss_start_y;
 
 	// ??
-	checkHit = false;
+	checkHit = 0;
 }
 
 

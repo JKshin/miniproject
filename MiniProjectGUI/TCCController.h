@@ -11,6 +11,9 @@ public:
 
 	void setScenario(int ats_cur_x, int ats_cur_y,
 		int ats_end_x, int ats_end_y, int mss_start_x, int mss_start_y); // 시나리오 설정 및 배포
+	bool startScenario(); // 시나리오 시작
+	bool stopScenario(); // 시나리오 중지
+	void finishScenario(); // 시나리오 종료
 
 	struct Position getAtsCurPosition() { return atsCurPosition; };
 	struct Position getAtsEndPosition() { return atsEndPosition; };
@@ -28,9 +31,7 @@ public:
 	}
 	///////////////////////////////////////////////////////
 
-	bool startScenario(); // 시나리오 시작
-	bool stopScenario(); // 시나리오 중지
-	void finishScenario(); // 시나리오 종료
+	
 
 	static TCCController* getInstance();
 
