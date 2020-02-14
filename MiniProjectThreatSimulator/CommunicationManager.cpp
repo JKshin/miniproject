@@ -60,13 +60,13 @@ void CommunicationManager::onReceiveData(NTcpSession& session)
 	AirThreatManager* AirThreat = AirThreatManager::getInstance();
 
 	session.recv((unsigned char*)& Message, sizeof(Message));
-	cout << "RECEIVED!!!" << endl;
+	//cout << "RECEIVED!!!" << endl;
 	switch (Message.id)
 	{
 	case START:
 	{
 		//초기 위치 및 최종 위치 설정 및 이륙
-		cout << "START!!!" << endl;
+		cout << "I'm an AirThreat : START!!!" << endl;
 		AirThreat->initStartAndEndPosition(Message.start_pos, Message.end_pos);
 		AirThreat->start();
 			
@@ -74,7 +74,7 @@ void CommunicationManager::onReceiveData(NTcpSession& session)
 	break;
 	case STOP_FINISH:
 	{
-		cout << "FINISH!!!" << endl;
+		cout << "I'm an AirThreat : FINISH!!!" << endl << endl;
 		//객체 소멸
 		AirThreat->stop();
 	}

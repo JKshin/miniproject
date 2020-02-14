@@ -10,8 +10,6 @@ struct RelativePoint {
 
 class MissileManager {
 public:
-	MissileManager() {};
-	~MissileManager() {};
 	void movecoordinate(Point endPosition);
 	void start();
 	void stop();
@@ -42,5 +40,7 @@ private:
 
 	static MissileManager* missile;
 	std::thread* missileManagerThread;
+	MissileManager() {};
+	~MissileManager() {};
 
 };

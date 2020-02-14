@@ -24,6 +24,7 @@ void MissileManager::missileManagerFuntion(void* args) {
 	while (!missile->isFinish) {
 		missile->movecoordinate(*missionManager->getPositionOfATS());
 		missionManager->setPositionOfMSS(missile->currentPosition);
+		cout << "I'm a Missile : MSS Position is (" << missile->currentPosition.x << "," << missile->currentPosition.y << ")" <<endl;
 		if (missionManager->CheckHit(missile->currentPosition)) {
 			missile->sendInterceptMessage();
 		}

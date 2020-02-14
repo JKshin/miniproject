@@ -62,7 +62,7 @@ void CommunicationManager::onReceiveData(NTcpSession& session)
 	MissileManager* missileManager = MissileManager::getInstance();
 	this->session = &session;
 	session.recv((unsigned char*)& message, sizeof(Message));
-	cout << "RECEIVED!!!" << endl;
+	//cout << "RECEIVED!!!" << endl;
 	switch (message.id)
 	{
 		//START, // 시나리오 시작
@@ -71,30 +71,31 @@ void CommunicationManager::onReceiveData(NTcpSession& session)
 		//	ATS_POSITION, // ATS 현재 위치 
 		//	MSS_POSITION, // 유도탄 현재 위치
 		//	INTERCEPT // 요격 여부
+		//	INTERCEPT_FAIL // 요격 실패
 	case START:
 	{
 		//초기 위치 설정
-		cout << "START!!!" << endl;
+		cout << "I'm a Missile : START!!!" << endl;
 		missileManager->initStartPosition(message.start_pos);
 
 	}
 	break;
 	case FIRE_MISSILE:
 	{
-		cout << "FIRE!!!" << endl;
+		cout << "I'm a Missile : FIRE!!!" << endl;
 		missileManager->start();
 		missionManager->start();
 	}
 	break;
 	case ATS_POSITION:
 	{
-		//cout << "ATS Position is (" << message.start_pos.x << "," << message.start_pos.y << ")" << endl;
+		cout << "I'm a Missile : ATS Position is (" << message.start_pos.x << "," << message.start_pos.y << ")" << endl;
 		missionManager->setPositionOfATS(message.start_pos);		
 	}
 	break;
 	case STOP_FINISH:
 	{
-		cout << "FINISH!!!" << endl;
+		cout << "I'm a Missile : FINISH!!!" << endl<<endl;
 		missileManager->stop();
 		missionManager->stop();
 		//객체 소멸

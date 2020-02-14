@@ -32,7 +32,7 @@ void AirThreatManager::airThreatFuntion(void* args){
 	}
 	if (airThreat->isSafe) {
 		airThreat->sendInterceptFailMessage();
-		cout << "I'm Safe!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
+		cout << "I'm an AirThreat : I'm Safe!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
 	}
 
 }
@@ -64,7 +64,7 @@ void AirThreatManager::movecoordinate() {
 		airThreat->isSafe = true;
 	}
 
-	cout << "currentPosition.x = " << currentPosition.x << "currentPosition.y = " << currentPosition.y << endl;
+	cout << "I'm an AirThreat : ATS Position is (" << currentPosition.x << "," << currentPosition.y << ")" << endl;
 
 }
 

@@ -9,8 +9,6 @@ struct RelativePoint {
 
 class AirThreatManager {
 public:
-	AirThreatManager() {};
-	~AirThreatManager() {};
 	void movecoordinate();
 	void start();
 	void stop();
@@ -31,4 +29,6 @@ private:
 	Point endPosition; // 목적지 위치 값
 	static AirThreatManager* airThreat;	
 	std::thread* airThreatThread;
+	AirThreatManager() {};
+	~AirThreatManager() {};
 };
