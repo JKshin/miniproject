@@ -74,6 +74,7 @@ public:
 	afx_msg void OnBnClickedBtnStart();
 	afx_msg void OnBnClickedBtnStop();
 	afx_msg void OnBnClickedBtnFireMissile();
+
 	CDisplayStatic m_ctrlDisplay;
 	afx_msg void OnBnClickedBtnTest();
 	afx_msg void OnEnChangeEditThreatTargetY();
